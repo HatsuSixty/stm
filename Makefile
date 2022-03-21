@@ -1,5 +1,5 @@
-CXX      = clang++
-CXXFLAGS = -Wall -Wextra -ggdb -pedantic -std=c++20 -Wmissing-field-initializers
+CXX      = g++
+CXXFLAGS = -Wall -Wextra -ggdb -pedantic -std=c++20
 
 all: systack
 
@@ -17,4 +17,4 @@ systack: ./src/main.o ./src/compiler.o
 
 clean:
 	rm ./src/*.o
-	rm ./*.o
+	rm ./systack
