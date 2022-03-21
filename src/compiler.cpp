@@ -22,5 +22,5 @@ int stack_pop()
 
 void simulate_program(Op *program, size_t stack_sz)
 {
-    std::cerr << "simulate_program is not implemented yet.\n";
+    std::cerr << "ERROR: TODO: simulate_program is not implemented yet.\n";
 }
