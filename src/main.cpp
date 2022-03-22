@@ -15,6 +15,7 @@ Op program[] = {
     {.type = OP_MULT},
     {.type = OP_PUSH_INT, .content = 2},
     {.type = OP_DIV},
+    {.type = OP_DROP},
     {.type = OP_PRINT},
 };
 #define PROGRAM_SIZE (sizeof(program) / sizeof(program[0]))

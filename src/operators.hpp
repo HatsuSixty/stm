@@ -8,6 +8,7 @@ typedef enum {
     OP_MULT,
     OP_DIV,
     OP_PUSH_INT,
+    OP_DROP,
     OP_COUNT
 } OpType;
 

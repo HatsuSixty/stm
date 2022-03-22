@@ -2,7 +2,7 @@
 
 void simulate_program(Op *program, size_t program_sz)
 {
-    static_assert(OP_COUNT == 6 /* Exhaustive handling of OPs in simulate_program */);
+    static_assert(OP_COUNT == 7 /* Exhaustive handling of OPs in simulate_program */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program_sz; ++ip)
@@ -39,6 +39,10 @@ void simulate_program(Op *program, size_t program_sz)
 
 	case OP_PRINT: {
 	    std::cout << stack.back(); stack.pop_back();
+	} break;
+
+	case OP_DROP: {
+	    stack.pop_back();
 	} break;
 	    
 	default:
