@@ -68,12 +68,12 @@ void simulate_program(Op *program, size_t program_sz)
 	} break;
 
 	case OP_DEBUG_STACK: {
-	    std::cout << "!!NOTE!! - Current state of the stack:\n";
+	    std::cout << "!!NOTE!! - Current state of the stack:\nSTART\n";
 	    for (size_t i = 0; i < stack.size(); ++i)
 	    {
 		std::cout << stack[i] << " ";
 	    }
-	    std::cout << '\n';
+	    std::cout << "\nEND\n";
 	    exit(1);
 	} break;
 	    
