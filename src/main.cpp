@@ -15,7 +15,14 @@ Op program[] = {
     {.type = OP_MULT},
     {.type = OP_PUSH_INT, .content = 2},
     {.type = OP_DIV},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_SWAP},
+    {.type = OP_DUP},
     {.type = OP_DROP},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_ROT},
+    {.type = OP_DEBUG_STACK},
     {.type = OP_PRINT},
 };
 #define PROGRAM_SIZE (sizeof(program) / sizeof(program[0]))

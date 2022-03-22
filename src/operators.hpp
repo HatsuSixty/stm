@@ -9,6 +9,10 @@ typedef enum {
     OP_DIV,
     OP_PUSH_INT,
     OP_DROP,
+    OP_DUP,
+    OP_SWAP,
+    OP_ROT,
+    OP_DEBUG_STACK,
     OP_COUNT
 } OpType;
 
