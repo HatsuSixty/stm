@@ -12,9 +12,9 @@ systack: ./src/main.o ./src/compiler.o
 ./src/compiler.o: ./src/compiler.cpp
 	$(CXX) $(CXXFLAGS) -c ./src/compiler.cpp -o ./src/compiler.o
 
-./src/main.cpp: ./src/operators.hpp
-./src/compiler.cpp: ./src/compiler.hpp
-
 clean:
 	rm ./src/*.o
 	rm ./systack
+
+./src/main.cpp: ./src/operators.hpp
+./src/compiler.cpp: ./src/compiler.hpp ./src/operators.hpp

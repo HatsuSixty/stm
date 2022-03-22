@@ -5,6 +5,8 @@ typedef enum {
     OP_PRINT,
     OP_PLUS,
     OP_MINUS,
+    OP_MULT,
+    OP_DIV,
     OP_PUSH_INT,
     OP_COUNT
 } OpType;

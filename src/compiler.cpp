@@ -2,7 +2,7 @@
 
 void simulate_program(Op *program, size_t program_sz)
 {
-    static_assert(OP_COUNT == 4 /* Exhaustive handling of OPs in simulate_program */);
+    static_assert(OP_COUNT == 6 /* Exhaustive handling of OPs in simulate_program */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program_sz; ++ip)
@@ -21,6 +21,18 @@ void simulate_program(Op *program, size_t program_sz)
 	    stack.push_back(b - a);
 	} break;
 
+	case OP_MULT: {
+	    int a = stack.back(); stack.pop_back();
+	    int b = stack.back(); stack.pop_back();
+	    stack.push_back(b * a);
+	} break;
+
+	case OP_DIV: {
+	    int a = stack.back(); stack.pop_back();
+	    int b = stack.back(); stack.pop_back();
+	    stack.push_back(b / a);
+	} break;
+	    
 	case OP_PUSH_INT: {
 	    stack.push_back(program[ip].content);
 	} break;
