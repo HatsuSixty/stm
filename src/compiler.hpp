@@ -4,13 +4,10 @@
 #include <cstddef>
 #include <cassert>
 #include <iostream>
+#include <vector>
 
 #include "operators.hpp"
 
-#define STACK_CAP 1024
-int stack[STACK_CAP] = {0};
-size_t stack_size = 0;
-
-void simulate_program(Op *program, size_t stack_sz);
+void simulate_program(Op *program, size_t program_sz);
 
 #endif // COMPILER_HPP_
