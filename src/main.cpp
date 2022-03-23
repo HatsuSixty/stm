@@ -1,8 +1,9 @@
 #include <iostream>
 #include <vector>
 
-#include "operators.hpp"
-#include "compiler.hpp"
+#include "./operators.hpp"
+#include "./compiler.hpp"
+#include "./lexer.hpp"
 
 std::vector <Op> program = {
     {.type = OP_PUSH_INT, .content = 34},
