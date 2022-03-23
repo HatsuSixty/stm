@@ -18,7 +18,7 @@ typedef enum {
 
 typedef struct {
     OpType type;
-    int content;
+    int content = 0;
 } Op;
 
 #endif // OPERATORS_HPP_
