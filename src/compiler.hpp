@@ -8,6 +8,6 @@
 
 #include "operators.hpp"
 
-void simulate_program(Op *program, size_t program_sz);
+void simulate_program(std::vector <Op> program);
 
 #endif // COMPILER_HPP_

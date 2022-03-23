@@ -1,11 +1,11 @@
 #include "compiler.hpp"
 
-void simulate_program(Op *program, size_t program_sz)
+void simulate_program(std::vector <Op> program)
 {
     static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in simulate_program */);
     std::vector <int> stack = {0};
     
-    for (size_t ip = 0; ip < program_sz; ++ip)
+    for (size_t ip = 0; ip < program.size(); ++ip)
     {
 	switch (program[ip].type)
 	{
