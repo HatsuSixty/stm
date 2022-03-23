@@ -19,6 +19,6 @@ clean:
 	rm ./src/*.o
 	rm ./systack
 
-./src/main.cpp: ./src/operators.hpp
+./src/main.cpp: ./src/operators.hpp ./src/tokens.hpp
 ./src/compiler.cpp: ./src/compiler.hpp ./src/operators.hpp
-./src/lexer.cpp: ./src/lexer.hpp
+./src/lexer.cpp: ./src/lexer.hpp ./src/tokens.hpp

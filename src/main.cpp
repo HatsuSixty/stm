@@ -24,12 +24,13 @@ std::vector <Op> program = {
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_ROT},
-    {.type = OP_DEBUG_STACK},
-    {.type = OP_PRINT},
+//    {.type = OP_DEBUG_STACK},
+//    {.type = OP_PRINT},
 };
 
 int main()
 {
+    tokenize_file("input.systack");
     simulate_program(program);
     return 0;
 }
