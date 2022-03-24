@@ -2,5 +2,5 @@
 
 ```console
 $ make
-$ ./systack
+$ ./stm
 ```
