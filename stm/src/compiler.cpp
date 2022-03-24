@@ -1,4 +1,4 @@
-#include "compiler.hpp"
+#include "./compiler.hpp"
 
 std::vector <Op> load(std::string path)
 {

@@ -10,7 +10,7 @@
 #include <vector>
 #include <fstream>
 
-#include "operators.hpp"
+#include "./operators.hpp"
 
 std::vector <Op> load(std::string path);
 void save(std::string path, std::vector <Op> program);

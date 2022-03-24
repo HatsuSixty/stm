@@ -27,10 +27,10 @@ std::vector <Op> program = {
     {.type = OP_PRINT},
 };
 
-int main()
+int main(void)
 {
-    save("test.stasm", program);
-    std::vector <Op> generated_program = load("test.stasm");
+    save("./test.stasm", program);
+    std::vector <Op> generated_program = load("./test.stasm");
     simulate_program(generated_program);
     return 0;
 }
