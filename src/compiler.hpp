@@ -5,9 +5,11 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 #include "operators.hpp"
 
+void save(std::string path, std::vector <Op> program);
 void simulate_program(std::vector <Op> program);
 
 #endif // COMPILER_HPP_

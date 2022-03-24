@@ -1,5 +1,70 @@
 #include "compiler.hpp"
 
+void save(std::string path, std::vector <Op> program)
+{
+    static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in save() */);
+    
+    std::fstream stream;
+    stream.open(path, std::ios::out);
+    
+    for (size_t i = 0; i < program.size(); ++i)
+    {
+	switch (program[i].type)
+	{
+	case OP_PRINT: {
+	    stream << 1;
+	} break;
+	
+	case OP_PLUS: {
+	    stream << 2;
+	    stream << program[i].content;
+	} break;
+	
+	case OP_MINUS: {
+	    stream << 3;
+	} break;
+	
+	case OP_MULT: {
+	    stream << 4;
+	} break;
+	
+	case OP_DIV: {
+	    stream << 5;
+	} break;
+	
+	case OP_PUSH_INT: {
+	    stream << 6;
+	} break;
+	
+	case OP_DROP: {
+	    stream << 7;
+	} break;
+	
+	case OP_DUP: {
+	    stream << 8;
+	} break;
+	
+	case OP_SWAP: {
+	    stream << 9;
+	} break;
+	
+	case OP_ROT: {
+	    stream << 10;
+	} break;
+	
+	case OP_DEBUG_STACK: {
+	    stream << 11;
+	} break;
+	
+	default:
+	    std::cerr << "Unreachable\n";
+	    exit(2);
+	}
+    }
+
+    stream.close();
+}
+
 void simulate_program(std::vector <Op> program)
 {
     static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in simulate_program */);
