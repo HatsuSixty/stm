@@ -1,5 +1,21 @@
 #include "compiler.hpp"
 
+std::vector <Op> load(std::string path)
+{
+    static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in save() */);
+
+    std::fstream stream;
+    stream.open(path, std::ios::in);
+
+    std::cerr << "ERROR: TODO: load function is not implemented yet.\n";
+    
+    stream.close();
+
+    std::vector <Op> temp;
+
+    return temp;
+}
+
 void save(std::string path, std::vector <Op> program)
 {
     static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in save() */);
