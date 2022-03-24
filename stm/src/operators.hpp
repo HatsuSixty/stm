@@ -12,6 +12,7 @@ typedef enum {
     OP_DUP,
     OP_SWAP,
     OP_ROT,
+    OP_OVER,
     OP_DEBUG_STACK,
     OP_COUNT
 } OpType;

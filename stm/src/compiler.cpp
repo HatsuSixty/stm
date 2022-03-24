@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 12 /* Exhaustive handling of OPs in save() */);
 
     std::vector <Op> program;
     
@@ -71,6 +71,10 @@ std::vector <Op> load(std::string path)
 	} break;
 
 	case 11: {
+	    program.push_back({.type = OP_OVER});
+	} break;
+	    
+	case 12: {
 	    program.push_back({.type = OP_DEBUG_STACK});
 	} break;
 
@@ -82,7 +86,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 12 /* Exhaustive handling of OPs in save() */);
     
     std::ofstream stream;
     stream.open(path);
@@ -131,9 +135,13 @@ void save(std::string path, std::vector <Op> program)
 	case OP_ROT: {
 	    stream.put(10);
 	} break;
-	
-	case OP_DEBUG_STACK: {
+
+	case OP_OVER: {
 	    stream.put(11);
+	} break;
+	    
+	case OP_DEBUG_STACK: {
+	    stream.put(12);
 	} break;
 	
 	default:
@@ -147,7 +155,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 12 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -155,24 +163,44 @@ void simulate_program(std::vector <Op> program)
 	switch (program[ip].type)
 	{
 	case OP_PLUS: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: not enough items for OP_PLUS\n";
+		exit(1);
+	    }
 	    int a = stack.back(); stack.pop_back();
 	    int b = stack.back(); stack.pop_back();
 	    stack.push_back(a + b);
 	} break;
 
 	case OP_MINUS: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: not enough items for OP_MINUS\n";
+		exit(1);
+	    }
 	    int a = stack.back(); stack.pop_back();
 	    int b = stack.back(); stack.pop_back();
 	    stack.push_back(b - a);
 	} break;
 
 	case OP_MULT: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: not enough items for OP_MULT\n";
+		exit(1);
+	    }
 	    int a = stack.back(); stack.pop_back();
 	    int b = stack.back(); stack.pop_back();
 	    stack.push_back(b * a);
 	} break;
 
 	case OP_DIV: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: not enough items for OP_DIV\n";
+		exit(1);
+	    }
 	    int a = stack.back(); stack.pop_back();
 	    int b = stack.back(); stack.pop_back();
 	    stack.push_back(b / a);
@@ -183,38 +211,67 @@ void simulate_program(std::vector <Op> program)
 	} break;
 
 	case OP_PRINT: {
+	    if (stack.size() < 1)
+	    {
+		std::cerr << "ERROR: not enough items for OP_PRINT\n";
+		exit(1);
+	    }
 	    std::cout << stack.back(); stack.pop_back();
 	} break;
 
 	case OP_DROP: {
+	    if (stack.size() < 1)
+	    {
+		std::cerr << "ERROR: not enough items for OP_DROP\n";
+		exit(1);
+	    }
 	    stack.pop_back();
 	} break;
 
 	case OP_DUP: {
+	    if (stack.size() < 1)
+	    {
+		std::cerr << "ERROR: not enough items for OP_DUP\n";
+		exit(1);
+	    }
 	    stack.push_back(stack.back());
 	} break;
 
 	case OP_SWAP: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: not enough items for OP_SWAP\n";
+		exit(1);
+	    }
 	    int a = stack.back(); stack.pop_back();
 	    int b = stack.back(); stack.pop_back();
 	    stack.push_back(a); stack.push_back(b);
 	} break;
 
 	case OP_ROT: {
-	    if (!(stack.size() >= 3))
+	    if (stack.size() < 3)
 	    {
 		std::cerr << "ERROR: Not enough items for OP_ROT\n";
 		exit(1);
-	    }
-	    
+	    }	    
 	    int a = stack.back(); stack.pop_back();
 	    int b = stack.back(); stack.pop_back();
 	    int c = stack.back(); stack.pop_back();
 	    stack.push_back(a); stack.push_back(b); stack.push_back(c);
 	} break;
 
+	case OP_OVER: {
+	    if (stack.size() < 1)
+	    {
+		std::cerr << "ERROR: not enough items for OP_OVER\n";
+		exit(1);
+	    }
+	    int a = stack[1];
+	    stack.push_back(a);
+	} break;
+
 	case OP_DEBUG_STACK: {
-	    std::cout << "!!NOTE!! - Current state of the stack:\nSTART\n";
+	    std::cout << "\n!!NOTE!! - Current state of the stack:\nSTART\n";
 	    for (size_t i = 0; i < stack.size(); ++i)
 	    {
 		std::cout << stack[i] << " ";
