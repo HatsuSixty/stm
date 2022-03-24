@@ -30,6 +30,7 @@ std::vector <Op> program = {
 int main()
 {
     save("test.stasm", program);
+    load("test.stasm");
     simulate_program(program);
     return 0;
 }

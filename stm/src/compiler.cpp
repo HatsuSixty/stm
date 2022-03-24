@@ -4,13 +4,23 @@ std::vector <Op> load(std::string path)
 {
     static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in save() */);
 
-    std::fstream stream;
-    stream.open(path, std::ios::in);
-
-    std::cerr << "ERROR: TODO: load function is not implemented yet.\n";
+    std::ifstream infile(path);
+    std::vector<char> buffer;
     
-    stream.close();
-
+    infile.seekg(0, infile.end);
+    size_t length = infile.tellg();
+    infile.seekg(0, infile.beg);
+    
+    if (length > 0) {
+        buffer.resize(length);    
+        infile.read(&buffer[0], length);
+    }
+    
+    for (size_t i = 0; i < buffer.size(); ++i)
+    {
+	std::cout << buffer[i];
+    }
+    
     std::vector <Op> temp;
 
     return temp;
@@ -20,8 +30,8 @@ void save(std::string path, std::vector <Op> program)
 {
     static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in save() */);
     
-    std::fstream stream;
-    stream.open(path, std::ios::out);
+    std::ofstream stream;
+    stream.open(path);
     
     for (size_t i = 0; i < program.size(); ++i)
     {
@@ -83,7 +93,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in simulate_program */);
+    static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program.size(); ++ip)
