@@ -23,14 +23,14 @@ std::vector <Op> program = {
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_ROT},
-    {.type = OP_DEBUG_STACK},
+//    {.type = OP_DEBUG_STACK},
     {.type = OP_PRINT},
 };
 
 int main()
 {
     save("test.stasm", program);
-    load("test.stasm");
-    simulate_program(program);
+    std::vector <Op> generated_program = load("test.stasm");
+    simulate_program(generated_program);
     return 0;
 }

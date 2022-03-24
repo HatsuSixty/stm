@@ -3,7 +3,10 @@
 
 #include <cstddef>
 #include <cassert>
+#include <cstring>
+#include <cerrno>
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <fstream>
 

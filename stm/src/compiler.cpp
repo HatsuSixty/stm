@@ -4,7 +4,16 @@ std::vector <Op> load(std::string path)
 {
     static_assert(OP_COUNT == 11 /* Exhaustive handling of OPs in save() */);
 
+    std::vector <Op> program;
+    
     std::ifstream infile(path);
+
+    if (!infile.is_open())
+    {
+	std::cerr << "ERROR: could not open file " << path << ": " << strerror(errno) << '\n';
+	exit(3);
+    }
+    
     std::vector<char> buffer;
     
     infile.seekg(0, infile.end);
@@ -18,12 +27,57 @@ std::vector <Op> load(std::string path)
     
     for (size_t i = 0; i < buffer.size(); ++i)
     {
-	std::cout << buffer[i];
+	switch (buffer[i])
+	{
+	case 1: {
+	    program.push_back({.type = OP_PRINT});
+	} break;
+
+	case 2: {
+	    program.push_back({.type = OP_PLUS});
+	} break;
+
+	case 3: {
+	    program.push_back({.type = OP_MINUS});
+	} break;
+
+	case 4: {
+	    program.push_back({.type = OP_MULT});
+	} break;
+
+	case 5: {
+	    program.push_back({.type = OP_DIV});
+	} break;
+
+	case 6: {
+	    int num = buffer[++i];
+	    program.push_back({.type = OP_PUSH_INT, .content = num});
+	} break;
+
+	case 7: {
+	    program.push_back({.type = OP_DROP});
+	} break;
+
+	case 8: {
+	    program.push_back({.type = OP_DUP});
+	} break;
+
+	case 9: {
+	    program.push_back({.type = OP_SWAP});
+	} break;
+
+	case 10: {
+	    program.push_back({.type = OP_ROT});
+	} break;
+
+	case 11: {
+	    program.push_back({.type = OP_DEBUG_STACK});
+	} break;
+
+	}
     }
     
-    std::vector <Op> temp;
-
-    return temp;
+    return program;
 }
 
 void save(std::string path, std::vector <Op> program)
@@ -38,48 +92,48 @@ void save(std::string path, std::vector <Op> program)
 	switch (program[i].type)
 	{
 	case OP_PRINT: {
-	    stream << 1;
+	    stream.put(1);
 	} break;
 	
 	case OP_PLUS: {
-	    stream << 2;
-	    stream << program[i].content;
+	    stream.put(2);
 	} break;
 	
 	case OP_MINUS: {
-	    stream << 3;
+	    stream.put(3);
 	} break;
 	
 	case OP_MULT: {
-	    stream << 4;
+	    stream.put(4);
 	} break;
 	
 	case OP_DIV: {
-	    stream << 5;
+	    stream.put(5);
 	} break;
 	
 	case OP_PUSH_INT: {
-	    stream << 6;
+	    stream.put(6);
+	    stream.put(program[i].content);
 	} break;
 	
 	case OP_DROP: {
-	    stream << 7;
+	    stream.put(7);
 	} break;
 	
 	case OP_DUP: {
-	    stream << 8;
+	    stream.put(8);
 	} break;
 	
 	case OP_SWAP: {
-	    stream << 9;
+	    stream.put(9);
 	} break;
 	
 	case OP_ROT: {
-	    stream << 10;
+	    stream.put(10);
 	} break;
 	
 	case OP_DEBUG_STACK: {
-	    stream << 11;
+	    stream.put(11);
 	} break;
 	
 	default:
@@ -150,6 +204,7 @@ void simulate_program(std::vector <Op> program)
 	    if (!(stack.size() >= 3))
 	    {
 		std::cerr << "ERROR: Not enough items for OP_ROT\n";
+		exit(1);
 	    }
 	    
 	    int a = stack.back(); stack.pop_back();
