@@ -87,6 +87,9 @@ std::vector <Op> load(std::string path)
 	    program.push_back({.type = OP_DEBUG_STACK});
 	} break;
 
+	default:
+	    std::cerr << "ERROR: Unreachable\n";
+	    exit(2);
 	}
     }
     
@@ -163,7 +166,7 @@ void save(std::string path, std::vector <Op> program)
 	} break;
 	
 	default:
-	    std::cerr << "Unreachable\n";
+	    std::cerr << "ERROR: Unreachable\n";
 	    exit(2);
 	}
     }
