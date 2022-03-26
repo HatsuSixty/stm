@@ -68,9 +68,20 @@ std::vector <Op> hello = {
     {.type = OP_JMP, .content = 0},
 };
 
+std::vector <Op> ifs = {
+    {.type = OP_PUSH_INT, .content = 1},
+    {.type = OP_PUSH_INT, .content = 2},
+    {.type = OP_EQU},
+    {.type = OP_JMP_IF, .content = 9},
+    {.type = OP_PUSH_INT, .content = 100},
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 0},
+    {.type = OP_QUIT},
+};
+
 int main(void)
 {
-    save("./test.stasm", hello);
+    save("./test.stasm", ifs);
     std::vector <Op> generated_program = load("./test.stasm");
     simulate_program(generated_program);
     return 0;

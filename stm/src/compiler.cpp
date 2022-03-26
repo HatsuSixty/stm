@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 14 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 17 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
     
@@ -82,9 +82,22 @@ std::vector <Op> load(std::string path)
 	    int num = buffer[++i];
 	    program.push_back({.type = OP_JMP, .content = num});
 	} break;
-	    
+
 	case 14: {
+	    int num = buffer[++i];
+	    program.push_back({.type = OP_JMP_IF, .content = num});
+	} break;
+	    
+	case 15: {
 	    program.push_back({.type = OP_DEBUG_STACK});
+	} break;
+
+	case 16: {
+	    program.push_back({.type = OP_QUIT});
+	} break;
+
+	case 17: {
+	    program.push_back({.type = OP_EQU});
 	} break;
 
 	default:
@@ -98,7 +111,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 14 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 17 /* Exhaustive handling of OPs in save() */);
     
     std::ofstream stream;
     stream.open(path);
@@ -160,9 +173,22 @@ void save(std::string path, std::vector <Op> program)
 	    stream.put(13);
 	    stream.put(program[i].content);
 	} break;
+
+	case OP_JMP_IF: {
+	    stream.put(14);
+	    stream.put(program[i].content);
+	} break;
 	    
 	case OP_DEBUG_STACK: {
-	    stream.put(14);
+	    stream.put(15);
+	} break;
+
+	case OP_QUIT: {
+	    stream.put(16);
+	} break;
+	    
+	case OP_EQU: {
+	    stream.put(17);
 	} break;
 	
 	default:
@@ -176,7 +202,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 14 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 17 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -303,6 +329,20 @@ void simulate_program(std::vector <Op> program)
 	case OP_JMP: {
 	    ip = program[ip].content;
 	} break;
+
+	case OP_JMP_IF: {
+	    if (stack.size() < 1)
+	    {
+		std::cerr << "ERROR: not enough items for OP_JMP_IF\n";
+		exit(1);
+	    }
+
+	    int a = stack.back(); stack.pop_back();
+	    if (a != 0)
+	    {
+		ip = program[ip].content;
+	    }
+	} break;
 	    
 	case OP_DEBUG_STACK: {
 	    std::cout << "\n!!NOTE!! - Current state of the stack:\nSTART\n";
@@ -312,6 +352,34 @@ void simulate_program(std::vector <Op> program)
 	    }
 	    std::cout << "\nEND\n";
 	    exit(1);
+	} break;
+
+	case OP_QUIT: {
+	    if (stack.size() < 1)
+	    {
+		std::cerr << "ERROR: Not enough items for OP_QUIT\n";
+		exit(1);
+	    }
+	    int a = stack.back(); stack.pop_back();
+	    exit(a);
+	} break;
+	    
+	case OP_EQU: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: Not enough items for OP_EQU\n";
+		exit(1);
+	    }
+   	    int a = stack.back(); stack.pop_back();
+	    int b = stack.back(); stack.pop_back();
+	    if (a == b)
+	    {
+		stack.push_back(1);
+	    }
+	    else
+	    {
+		stack.push_back(0);
+	    }
 	} break;
 	    
 	default:

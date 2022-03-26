@@ -15,7 +15,10 @@ typedef enum {
     OP_ROT,
     OP_OVER,
     OP_JMP,
+    OP_JMP_IF,
     OP_DEBUG_STACK,
+    OP_QUIT,
+    OP_EQU,
     OP_COUNT
 } OpType;
 
