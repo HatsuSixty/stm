@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 13 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 14 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
     
@@ -14,7 +14,7 @@ std::vector <Op> load(std::string path)
 	exit(3);
     }
     
-    std::vector<char> buffer;
+    std::vector <char> buffer;
     
     infile.seekg(0, infile.end);
     size_t length = infile.tellg();
@@ -77,8 +77,13 @@ std::vector <Op> load(std::string path)
 	case 12: {
 	    program.push_back({.type = OP_OVER});
 	} break;
-	    
+
 	case 13: {
+	    int num = buffer[++i];
+	    program.push_back({.type = OP_JMP, .content = num});
+	} break;
+	    
+	case 14: {
 	    program.push_back({.type = OP_DEBUG_STACK});
 	} break;
 
@@ -90,7 +95,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 13 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 14 /* Exhaustive handling of OPs in save() */);
     
     std::ofstream stream;
     stream.open(path);
@@ -147,9 +152,14 @@ void save(std::string path, std::vector <Op> program)
 	case OP_OVER: {
 	    stream.put(12);
 	} break;
+
+	case OP_JMP: {
+	    stream.put(13);
+	    stream.put(program[i].content);
+	} break;
 	    
 	case OP_DEBUG_STACK: {
-	    stream.put(13);
+	    stream.put(14);
 	} break;
 	
 	default:
@@ -163,7 +173,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 13 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 14 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -287,6 +297,10 @@ void simulate_program(std::vector <Op> program)
 	    stack.push_back(a);
 	} break;
 
+	case OP_JMP: {
+	    ip = program[ip].content;
+	} break;
+	    
 	case OP_DEBUG_STACK: {
 	    std::cout << "\n!!NOTE!! - Current state of the stack:\nSTART\n";
 	    for (size_t i = 0; i < stack.size(); ++i)

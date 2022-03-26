@@ -32,9 +32,11 @@ std::vector <Op> program = {
     {.type = OP_PUTI},
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_PUTC},
+    {.type = OP_JMP, .content = 0},
 };
 
 std::vector <Op> hello = {
+    {.type = OP_PUSH_INT},
     {.type = OP_PUSH_INT, .content = 104}, //h
     {.type = OP_PUTC},
     {.type = OP_PUSH_INT, .content = 101}, //e
@@ -63,6 +65,7 @@ std::vector <Op> hello = {
     {.type = OP_PUTC},
     {.type = OP_PUSH_INT, .content =  10}, //new line
     {.type = OP_PUTC},
+    {.type = OP_JMP, .content = 0},
 };
 
 int main(void)
