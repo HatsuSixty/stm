@@ -34,9 +34,40 @@ std::vector <Op> program = {
     {.type = OP_PUTC},
 };
 
+std::vector <Op> hello = {
+    {.type = OP_PUSH_INT, .content = 104}, //h
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 101}, //e
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 108}, //l
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 108}, //l
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 111}, //o
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content =  44}, //,
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content =  32}, //
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 119}, //w
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 111}, //o
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 114}, //r
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 108}, //l
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 100}, //d
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content =  33}, //!
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content =  10}, //new line
+    {.type = OP_PUTC},
+};
+
 int main(void)
 {
-    save("./test.stasm", program);
+    save("./test.stasm", hello);
     std::vector <Op> generated_program = load("./test.stasm");
     simulate_program(generated_program);
     return 0;
