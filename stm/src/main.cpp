@@ -25,9 +25,13 @@ std::vector <Op> program = {
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_ROT},
     {.type = OP_PUTI},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUTC},
     {.type = OP_OVER},
 //    {.type = OP_DEBUG_STACK},
     {.type = OP_PUTI},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUTC},
 };
 
 int main(void)

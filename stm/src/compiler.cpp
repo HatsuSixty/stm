@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 12 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 13 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
     
@@ -29,6 +29,10 @@ std::vector <Op> load(std::string path)
     {
 	switch (buffer[i])
 	{
+	case 1: {
+	    program.push_back({.type = OP_PUTC});
+	} break;
+	    
 	case 2: {
 	    program.push_back({.type = OP_PUTI});
 	} break;
@@ -86,7 +90,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 12 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 13 /* Exhaustive handling of OPs in save() */);
     
     std::ofstream stream;
     stream.open(path);
@@ -95,6 +99,10 @@ void save(std::string path, std::vector <Op> program)
     {
 	switch (program[i].type)
 	{
+	case OP_PUTC: {
+	    stream.put(1);
+	} break;
+	    
 	case OP_PUTI: {
 	    stream.put(2);
 	} break;
@@ -155,7 +163,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 12 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 13 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -210,6 +218,15 @@ void simulate_program(std::vector <Op> program)
 	    stack.push_back(program[ip].content);
 	} break;
 
+	case OP_PUTC: {
+	    if (stack.size() < 1)
+	    {
+		std::cerr << "ERROR: not enough items for OP_PUTC\n";
+		exit(1);
+	    }
+	    std::cout << (char) stack.back(); stack.pop_back();
+	} break;
+	    
 	case OP_PUTI: {
 	    if (stack.size() < 1)
 	    {
