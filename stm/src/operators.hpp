@@ -2,7 +2,7 @@
 #define OPERATORS_HPP_
 
 typedef enum {
-    OP_PRINT,
+    OP_PUTI,
     OP_PLUS,
     OP_MINUS,
     OP_MULT,

@@ -29,52 +29,52 @@ std::vector <Op> load(std::string path)
     {
 	switch (buffer[i])
 	{
-	case 1: {
-	    program.push_back({.type = OP_PRINT});
-	} break;
-
 	case 2: {
-	    program.push_back({.type = OP_PLUS});
+	    program.push_back({.type = OP_PUTI});
 	} break;
 
 	case 3: {
-	    program.push_back({.type = OP_MINUS});
+	    program.push_back({.type = OP_PLUS});
 	} break;
 
 	case 4: {
-	    program.push_back({.type = OP_MULT});
+	    program.push_back({.type = OP_MINUS});
 	} break;
 
 	case 5: {
-	    program.push_back({.type = OP_DIV});
+	    program.push_back({.type = OP_MULT});
 	} break;
 
 	case 6: {
+	    program.push_back({.type = OP_DIV});
+	} break;
+
+	case 7: {
 	    int num = buffer[++i];
 	    program.push_back({.type = OP_PUSH_INT, .content = num});
 	} break;
 
-	case 7: {
+	case 8: {
 	    program.push_back({.type = OP_DROP});
 	} break;
 
-	case 8: {
+	case 9: {
 	    program.push_back({.type = OP_DUP});
 	} break;
 
-	case 9: {
+	case 10: {
 	    program.push_back({.type = OP_SWAP});
 	} break;
 
-	case 10: {
+	case 11: {
 	    program.push_back({.type = OP_ROT});
 	} break;
 
-	case 11: {
+	case 12: {
 	    program.push_back({.type = OP_OVER});
 	} break;
 	    
-	case 12: {
+	case 13: {
 	    program.push_back({.type = OP_DEBUG_STACK});
 	} break;
 
@@ -95,53 +95,53 @@ void save(std::string path, std::vector <Op> program)
     {
 	switch (program[i].type)
 	{
-	case OP_PRINT: {
-	    stream.put(1);
-	} break;
-	
-	case OP_PLUS: {
+	case OP_PUTI: {
 	    stream.put(2);
 	} break;
 	
-	case OP_MINUS: {
+	case OP_PLUS: {
 	    stream.put(3);
 	} break;
 	
-	case OP_MULT: {
+	case OP_MINUS: {
 	    stream.put(4);
 	} break;
 	
-	case OP_DIV: {
+	case OP_MULT: {
 	    stream.put(5);
 	} break;
 	
-	case OP_PUSH_INT: {
+	case OP_DIV: {
 	    stream.put(6);
+	} break;
+	
+	case OP_PUSH_INT: {
+	    stream.put(7);
 	    stream.put(program[i].content);
 	} break;
 	
 	case OP_DROP: {
-	    stream.put(7);
-	} break;
-	
-	case OP_DUP: {
 	    stream.put(8);
 	} break;
 	
-	case OP_SWAP: {
+	case OP_DUP: {
 	    stream.put(9);
 	} break;
 	
-	case OP_ROT: {
+	case OP_SWAP: {
 	    stream.put(10);
+	} break;
+	
+	case OP_ROT: {
+	    stream.put(11);
 	} break;
 
 	case OP_OVER: {
-	    stream.put(11);
+	    stream.put(12);
 	} break;
 	    
 	case OP_DEBUG_STACK: {
-	    stream.put(12);
+	    stream.put(13);
 	} break;
 	
 	default:
@@ -210,10 +210,10 @@ void simulate_program(std::vector <Op> program)
 	    stack.push_back(program[ip].content);
 	} break;
 
-	case OP_PRINT: {
+	case OP_PUTI: {
 	    if (stack.size() < 1)
 	    {
-		std::cerr << "ERROR: not enough items for OP_PRINT\n";
+		std::cerr << "ERROR: not enough items for OP_PUTI\n";
 		exit(1);
 	    }
 	    std::cout << stack.back(); stack.pop_back();
