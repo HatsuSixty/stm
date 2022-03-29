@@ -19,6 +19,8 @@ typedef enum {
     OP_DEBUG_STACK,
     OP_QUIT,
     OP_EQU,
+    OP_LESS,
+    OP_NOT,
     OP_COUNT
 } OpType;
 

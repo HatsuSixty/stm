@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 17 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 19 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
     
@@ -100,6 +100,14 @@ std::vector <Op> load(std::string path)
 	    program.push_back({.type = OP_EQU});
 	} break;
 
+	case 18: {
+	    program.push_back({.type = OP_LESS});
+	} break;
+
+	case 19: {
+	    program.push_back({.type = OP_NOT});
+	} break;
+	    
 	default:
 	    std::cerr << "ERROR: Unreachable\n";
 	    exit(2);
@@ -111,7 +119,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 17 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 19 /* Exhaustive handling of OPs in save() */);
     
     std::ofstream stream;
     stream.open(path);
@@ -190,7 +198,15 @@ void save(std::string path, std::vector <Op> program)
 	case OP_EQU: {
 	    stream.put(17);
 	} break;
-	
+
+	case OP_LESS: {
+	    stream.put(18);
+	} break;
+
+	case OP_NOT: {
+	    stream.put(19);
+	} break;
+	    
 	default:
 	    std::cerr << "ERROR: Unreachable\n";
 	    exit(2);
@@ -202,7 +218,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 17 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 19 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -373,6 +389,41 @@ void simulate_program(std::vector <Op> program)
    	    int a = stack.back(); stack.pop_back();
 	    int b = stack.back(); stack.pop_back();
 	    if (a == b)
+	    {
+		stack.push_back(1);
+	    }
+	    else
+	    {
+		stack.push_back(0);
+	    }
+	} break;
+
+	case OP_LESS: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: Not enough items for OP_LESS\n";
+		exit(1);
+	    }
+   	    int a = stack.back(); stack.pop_back();
+	    int b = stack.back(); stack.pop_back();
+	    if (a < b)
+	    {
+		stack.push_back(1);
+	    }
+	    else
+	    {
+		stack.push_back(0);
+	    }
+	} break;
+
+	case OP_NOT: {
+	    if (stack.size() < 1)
+	    {
+		std::cerr << "ERROR: Not enough items for OP_NOT\n";
+		exit(1);
+	    }
+	    int a = stack.back(); stack.pop_back();
+	    if (a == 0)
 	    {
 		stack.push_back(1);
 	    }

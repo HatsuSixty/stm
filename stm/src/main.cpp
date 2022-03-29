@@ -79,6 +79,13 @@ std::vector <Op> ifs = {
     {.type = OP_QUIT},
 };
 
+std::vector <Op> counter = {
+    {.type = OP_PUSH_INT, .content = 0},
+    {.type = OP_DUP},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_LESS},
+};
+
 int main(void)
 {
     save("./test.stasm", ifs);
