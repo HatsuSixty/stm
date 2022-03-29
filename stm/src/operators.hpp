@@ -20,6 +20,7 @@ typedef enum {
     OP_QUIT,
     OP_EQU,
     OP_LESS,
+    OP_GREATER,
     OP_NOT,
     OP_COUNT
 } OpType;

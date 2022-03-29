@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 19 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 20 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
     
@@ -105,6 +105,10 @@ std::vector <Op> load(std::string path)
 	} break;
 
 	case 19: {
+	    program.push_back({.type = OP_GREATER});
+	} break;
+
+	case 20: {
 	    program.push_back({.type = OP_NOT});
 	} break;
 	    
@@ -119,7 +123,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 19 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 20 /* Exhaustive handling of OPs in save() */);
     
     std::ofstream stream;
     stream.open(path);
@@ -203,8 +207,12 @@ void save(std::string path, std::vector <Op> program)
 	    stream.put(18);
 	} break;
 
-	case OP_NOT: {
+	case OP_GREATER: {
 	    stream.put(19);
+	} break;
+
+	case OP_NOT: {
+	    stream.put(20);
 	} break;
 	    
 	default:
@@ -218,7 +226,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 19 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 20 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
     
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -416,6 +424,24 @@ void simulate_program(std::vector <Op> program)
 	    }
 	} break;
 
+	case OP_GREATER: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: Not enough items for OP_GREATER\n";
+		exit(1);
+	    }
+   	    int a = stack.back(); stack.pop_back();
+	    int b = stack.back(); stack.pop_back();
+	    if (b > a)
+	    {
+		stack.push_back(1);
+	    }
+	    else
+	    {
+		stack.push_back(0);
+	    }
+	} break;
+	    
 	case OP_NOT: {
 	    if (stack.size() < 1)
 	    {
