@@ -97,11 +97,26 @@ std::vector <Op> counter = {
     {.type = OP_PUTC},
 };
 
+std::vector <Op> lessngreater = {
+    {.type = OP_PUSH_INT, .content = 20},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_GREATER},
+    {.type = OP_PUTI},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUSH_INT, .content = 20},
+    {.type = OP_LESS},
+    {.type = OP_PUTI},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUTC},
+};
+
 ////////// END EXAMPLES //////////
 
 int main(void)
 {
-    save("./test.stasm", counter);
+    save("./test.stasm", lessngreater);
     std::vector <Op> generated_program = load("./test.stasm");
     simulate_program(generated_program);
     return 0;
