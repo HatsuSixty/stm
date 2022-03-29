@@ -406,7 +406,7 @@ void simulate_program(std::vector <Op> program)
 	    }
    	    int a = stack.back(); stack.pop_back();
 	    int b = stack.back(); stack.pop_back();
-	    if (a < b)
+	    if (b < a)
 	    {
 		stack.push_back(1);
 	    }
