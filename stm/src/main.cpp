@@ -85,13 +85,13 @@ std::vector <Op> counter = {
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_LESS},
     {.type = OP_NOT},
-    {.type = OP_JMP_IF, .content = 12},
+    {.type = OP_JMP_IF, .content = 11},
     {.type = OP_PUSH_INT, .content = 1},
     {.type = OP_PLUS},
     {.type = OP_DUP},
     {.type = OP_PUTI},
     {.type = OP_JMP, .content = 0},
-    {.type = OP_PUSH_INT, .content = 100},
+    {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_PUTC},
 };
 
