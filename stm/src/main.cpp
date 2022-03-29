@@ -4,6 +4,8 @@
 #include "./operators.hpp"
 #include "./compiler.hpp"
 
+////////// EXAMPLES //////////
+
 std::vector <Op> program = {
     {.type = OP_PUSH_INT, .content = 69},
     {.type = OP_PUSH_INT, .content = 34},
@@ -94,6 +96,8 @@ std::vector <Op> counter = {
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_PUTC},
 };
+
+////////// END EXAMPLES //////////
 
 int main(void)
 {
