@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 21 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 22 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -116,6 +116,10 @@ std::vector <Op> load(std::string path)
 	    program.push_back({.type = OP_OR});
 	} break;
 
+	case 22: {
+	    program.push_back({.type = OP_AND});
+	} break;
+
 	default:
 	    std::cerr << "ERROR: Unreachable\n";
 	    exit(2);
@@ -127,7 +131,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 21 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 22 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -223,6 +227,10 @@ void save(std::string path, std::vector <Op> program)
 	    stream.put(21);
 	} break;
 
+	case OP_AND: {
+	    stream.put(22);
+	} break;
+
 	default:
 	    std::cerr << "ERROR: Unreachable\n";
 	    exit(2);
@@ -234,7 +242,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 21 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 22 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
 
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -477,6 +485,25 @@ void simulate_program(std::vector <Op> program)
 	    int b = stack.back(); stack.pop_back();
 
 	    if (a != 0 || b != 0)
+	    {
+		stack.push_back(1);
+	    }
+	    else
+	    {
+		stack.push_back(0);
+	    }
+	} break;
+
+	case OP_AND: {
+	    if (stack.size() < 2)
+	    {
+		std::cerr << "ERROR: Not enough items for OP_AND\n";
+		exit(1);
+	    }
+	    int a = stack.back(); stack.pop_back();
+	    int b = stack.back(); stack.pop_back();
+
+	    if (a != 0 && b != 0)
 	    {
 		stack.push_back(1);
 	    }

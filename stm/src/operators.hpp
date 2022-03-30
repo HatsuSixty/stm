@@ -23,6 +23,7 @@ typedef enum {
     OP_GREATER,
     OP_NOT,
     OP_OR,
+    OP_AND,
     OP_COUNT
 } OpType;
 

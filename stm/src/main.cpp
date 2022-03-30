@@ -112,11 +112,20 @@ std::vector <Op> lessngreater = {
     {.type = OP_PUTC},
 };
 
+std::vector <Op> andnor = {
+    {.type = OP_PUSH_INT, .content = 1},
+    {.type = OP_PUSH_INT, .content = 0},
+    {.type = OP_OR},
+    {.type = OP_PUTI},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUTC},
+};
+
 ////////// END EXAMPLES //////////
 
 int main(void)
 {
-    save("./test.stasm", lessngreater);
+    save("./test.stasm", andnor);
     std::vector <Op> generated_program = load("./test.stasm");
     simulate_program(generated_program);
     return 0;
