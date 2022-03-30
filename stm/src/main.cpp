@@ -119,6 +119,12 @@ std::vector <Op> andnor = {
     {.type = OP_PUTI},
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_PUTC},
+    {.type = OP_PUSH_INT, .content = 1},
+    {.type = OP_PUSH_INT, .content = 0},
+    {.type = OP_AND},
+    {.type = OP_PUTI},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUTC},
 };
 
 ////////// END EXAMPLES //////////
