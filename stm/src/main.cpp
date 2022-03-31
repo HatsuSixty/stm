@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <cstdio>
-#include <cstring>
 
 #include "./operators.hpp"
 #include "./compiler.hpp"
