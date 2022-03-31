@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <cstdio>
+#include <cstring>
 
 #include "./operators.hpp"
 #include "./compiler.hpp"
@@ -129,10 +131,74 @@ std::vector <Op> andnor = {
 
 ////////// END EXAMPLES //////////
 
-int main(void)
+bool compare(const char a[], const char b[])
 {
-    save("./test.stasm", andnor);
-    std::vector <Op> generated_program = load("./test.stasm");
+    bool flag = true;
+    int i = 0;
+
+    while((a[i] != '\0') && (b[i] != '\0'))
+    {
+	if(a[i] != b[i])
+	{
+	    flag = false;
+	    break;
+	}
+	i++;
+    }
+    return flag;
+}
+
+void usage(FILE* stream)
+{
+    fprintf(stream, "Usage:\n");
+    fprintf(stream, "    stm [flags]\n");
+    fprintf(stream, "\n");
+    fprintf(stream, "flags:\n");
+    fprintf(stream, "    -h | --help               - Print this help\n");
+    fprintf(stream, "    -f | --file <input.stasm> - Simulate the specified file\n");
+    fprintf(stream, "\n");
+}
+
+int main(int argc, char *argv[])
+{
+    std::string file_to_simulate;
+    
+    if (argc < 2)
+    {
+	usage(stderr);
+	std::cerr << "ERROR: no flag is provided\n";
+	exit(4);
+    }
+
+    for (size_t i = 1; i < (size_t) argc; ++i)
+    {
+	if (compare(argv[i], "-h") || compare(argv[i], "--help"))
+	{
+	    usage(stdout);
+	    exit(0);
+	}
+	else if (compare(argv[i], "-f") || compare(argv[i], "--file"))
+	{
+	    if ((size_t) (argc - 1) < (i + 1))
+	    {
+		usage(stderr);
+		std::cerr << "ERROR: no input file is provided\n";
+		exit(4);
+	    }
+	    else
+	    {
+		file_to_simulate = argv[++i];
+	    }
+	}
+	else
+	{
+	    usage(stderr);
+	    std::cerr << "ERROR: unknown flag `" << argv[i] << "`\n";
+	    exit(4);
+	}
+    }
+
+    std::vector <Op> generated_program = load(file_to_simulate);
     simulate_program(generated_program);
     return 0;
 }
