@@ -6,5 +6,5 @@ This is the stack-based virtual machine that will interpret it's bytecode.
 
 ```console
 $ make
-$ ./stm -f ./examples/and_and_or.stasm
+$ ./stm -f ./examples/hello.stasm
 ```

@@ -136,6 +136,12 @@ void save(std::string path, std::vector <Op> program)
     std::ofstream stream;
     stream.open(path);
 
+    if (!stream.is_open())
+    {
+	std::cerr << "ERROR: could not open file " << path << ": " << strerror(errno) << '\n';
+	exit(3);
+    }
+    
     for (size_t i = 0; i < program.size(); ++i)
     {
 	switch (program[i].type)

@@ -153,9 +153,10 @@ void usage(FILE* stream)
     fprintf(stream, "    stm [flags]\n");
     fprintf(stream, "\n");
     fprintf(stream, "flags:\n");
-    fprintf(stream, "    -h | --help               - Print this help\n");
-    fprintf(stream, "    -f | --file <input.stasm> - Simulate the specified file\n");
-    fprintf(stream, "\n");
+    fprintf(stream, "    -h  | --help               - Print this help\n");
+    fprintf(stream, "    -f  | --file <input.stasm> - Simulate the specified file\n");
+    fprintf(stream, "    -e  | --example <example>  - Generate the specified example\n");
+    fprintf(stream, "    -le | --list-examples      - List avaiable examples\n");
 }
 
 int main(int argc, char *argv[])
@@ -189,10 +190,79 @@ int main(int argc, char *argv[])
 		file_to_simulate = argv[++i];
 	    }
 	}
+	else if (compare(argv[i], "-le") || compare(argv[i], "--list-examples"))
+	{
+	    std::cout << "Avaiable examples:\n"
+		      << "    lessngreater\n"
+		      << "    andnor\n"
+		      << "    counter\n"
+		      << "    ifs\n"
+		      << "    hello\n"
+		      << "    basics\n"
+		      << "    all\n";
+	    exit(0);
+	}
+	else if (compare(argv[i], "-e") || compare(argv[i], "--example"))
+	{
+	    if ((size_t) (argc - 1) < (i + 1))
+	    {
+		usage(stderr);
+		std::cerr << "ERROR: no example is provided\n";
+		exit(4);
+	    }
+
+	    std::string chosen_example = argv[++i];
+	    
+	    if (chosen_example == "lessngreater")
+	    {
+		save("./lessngreater.stasm", lessngreater);
+		exit(0);
+	    }
+	    else if (chosen_example == "andnor")
+	    {
+		save("./andnor.stasm", andnor);
+		exit(0);
+	    }
+	    else if (chosen_example == "counter")
+	    {
+		save("./counter.stasm", counter);
+		exit(0);
+	    }
+	    else if (chosen_example == "ifs")
+	    {
+		save("./ifs.stasm", ifs);
+		exit(0);
+	    }
+	    else if (chosen_example == "hello")
+	    {
+		save("./hello.stasm", hello);
+		exit(0);
+	    }
+	    else if (chosen_example == "basics")
+	    {
+		save("./basics.stasm", program);
+		exit(0);
+	    }
+	    else if (chosen_example == "all")
+	    {
+		save("./lessngreater.stasm", lessngreater);
+                save("./andnor.stasm", andnor);
+                save("./counter.stasm", counter);
+                save("./ifs.stasm", ifs);
+                save("./hello.stasm", hello);
+                save("./basics.stasm", program);
+		exit(0);
+	    }
+	    else
+	    {
+		std::cerr << "ERROR: unknown example: `" << chosen_example << "`\n";
+		exit(4);
+	    }
+	}
 	else
 	{
 	    usage(stderr);
-	    std::cerr << "ERROR: unknown flag `" << argv[i] << "`\n";
+	    std::cerr << "ERROR: unknown flag: `" << argv[i] << "`\n";
 	    exit(4);
 	}
     }
