@@ -531,12 +531,19 @@ void simulate_program(std::vector <Op> program)
 		    std::string str;
 			std::getline(std::cin, str);
 			
+			stack.push_back(10);
+			std::vector <char> items_to_push;
+			
 			for (auto &ch : str)
 			{
-				stack.push_back((int) ch);
+				items_to_push.insert(items_to_push.begin(), (int) ch);
 			}
-			
-			stack.push_back(10);
+
+			for (size_t item = 0; item < items_to_push.size(); ++item)
+			{
+				stack.push_back(items_to_push[item]);
+			}
+
 			stack.push_back(str.size() + 1);
 		} break;
 			

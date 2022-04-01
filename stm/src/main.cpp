@@ -130,7 +130,14 @@ std::vector <Op> andnor = {
 
 std::vector <Op> readk {
 	{.type = OP_READK},
-	{.type = OP_DEBUG_STACK},
+	{.type = OP_SWAP},
+	{.type = OP_PUTC},
+	{.type = OP_SWAP},
+	{.type = OP_DUP},
+	{.type = OP_PUSH_INT, .content = 0},
+	{.type = OP_EQU},
+	{.type = OP_NOT},
+	{.type = OP_JMP_IF, .content = 1},
 };
 
 ////////// END EXAMPLES //////////
@@ -165,14 +172,6 @@ void usage(FILE* stream)
 }
 
 int main(int argc, char *argv[])
-{
-    save("./test.stasm", readk);
-	std::vector <Op> sus = load("./test.stasm");
-	simulate_program(sus);
-    return 0;
-}
-
-int main2(int argc, char *argv[])
 {
     std::string file_to_simulate;
     
@@ -212,7 +211,8 @@ int main2(int argc, char *argv[])
                       << "    ifs\n"
                       << "    hello\n"
                       << "    basics\n"
-                      << "    all\n";
+                      << "    all\n"
+					  << "";
             exit(0);
         }
         else if (compare(argv[i], "-e") || compare(argv[i], "--example"))
@@ -256,6 +256,11 @@ int main2(int argc, char *argv[])
                 save("./basics.stasm", program);
                 exit(0);
             }
+			else if (chosen_example == "readk")
+			{
+			    save("./readk.stasm", readk);
+				exit(0);
+			}
             else if (chosen_example == "all")
             {
                 save("./lessngreater.stasm", lessngreater);
@@ -263,6 +268,7 @@ int main2(int argc, char *argv[])
                 save("./counter.stasm", counter);
                 save("./ifs.stasm", ifs);
                 save("./hello.stasm", hello);
+				save("./readk.stasm", readk);				
                 save("./basics.stasm", program);
                 exit(0);
             }
