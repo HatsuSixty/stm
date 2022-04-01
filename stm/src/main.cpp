@@ -140,6 +140,18 @@ std::vector <Op> readk {
 	{.type = OP_JMP_IF, .content = 1},
 };
 
+std::vector <Op> op_at {
+	{.type = OP_PUSH_INT, .content = 10},
+	{.type = OP_PUSH_INT, .content = 20},
+	{.type = OP_PUSH_INT, .content = 30},
+	{.type = OP_PUSH_INT, .content = 40},
+	{.type = OP_PUSH_INT, .content = 50},
+	{.type = OP_PUSH_INT, .content = 60},
+	{.type = OP_PUSH_INT, .content =  2},
+	{.type = OP_AT},
+	{.type = OP_PUTI},
+};
+
 ////////// END EXAMPLES //////////
 
 bool compare(const char a[], const char b[])
@@ -211,8 +223,9 @@ int main(int argc, char *argv[])
                       << "    ifs\n"
                       << "    hello\n"
                       << "    basics\n"
-                      << "    all\n"
-					  << "";
+                      << "    readk\n"
+					  << "    op_at\n"
+					  << "    all\n";
             exit(0);
         }
         else if (compare(argv[i], "-e") || compare(argv[i], "--example"))
@@ -261,6 +274,11 @@ int main(int argc, char *argv[])
 			    save("./readk.stasm", readk);
 				exit(0);
 			}
+			else if (chosen_example == "op_at")
+			{
+				save("./op_at.stasm", op_at);
+				exit(0);
+			}
             else if (chosen_example == "all")
             {
                 save("./lessngreater.stasm", lessngreater);
@@ -270,6 +288,7 @@ int main(int argc, char *argv[])
                 save("./hello.stasm", hello);
 				save("./readk.stasm", readk);				
                 save("./basics.stasm", program);
+				save("./op_at.stasm", program);
                 exit(0);
             }
             else

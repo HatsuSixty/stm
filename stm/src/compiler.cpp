@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 23 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 24 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -124,6 +124,10 @@ std::vector <Op> load(std::string path)
 			program.push_back({.type = OP_READK});
 		} break;
 
+		case 24: {
+			program.push_back({.type = OP_AT});
+		} break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -135,7 +139,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 23 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 24 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -245,6 +249,10 @@ void save(std::string path, std::vector <Op> program)
 			stream.put(23);
 		} break;
 
+		case OP_AT: {
+			stream.put(24);
+		} break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -256,7 +264,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 23 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 24 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
 
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -545,6 +553,24 @@ void simulate_program(std::vector <Op> program)
 			}
 
 			stack.push_back(str.size() + 1);
+		} break;
+
+		case OP_AT: {
+			if (stack.size() < 1)
+			{
+				std::cerr << "ERROR: Not enough items for OP_AT\n";
+				exit(1);
+			}
+
+			int a = stack.back(); stack.pop_back();
+			
+			if ((long unsigned int) a > stack.size())
+			{
+				std::cerr << "ERROR: Element not found on the stack during the execution of OP_AT\n";
+				exit(1);
+			}
+
+			stack.push_back(stack[a]);
 		} break;
 			
         default:
