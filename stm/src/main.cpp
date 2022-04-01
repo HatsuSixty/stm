@@ -129,27 +129,27 @@ std::vector <Op> andnor = {
 };
 
 std::vector <Op> readk {
-	{.type = OP_READK},
-	{.type = OP_SWAP},
-	{.type = OP_PUTC},
-	{.type = OP_SWAP},
-	{.type = OP_DUP},
-	{.type = OP_PUSH_INT, .content = 0},
-	{.type = OP_EQU},
-	{.type = OP_NOT},
-	{.type = OP_JMP_IF, .content = 1},
+    {.type = OP_READK},
+    {.type = OP_SWAP},
+    {.type = OP_PUTC},
+    {.type = OP_SWAP},
+    {.type = OP_DUP},
+    {.type = OP_PUSH_INT, .content = 0},
+    {.type = OP_EQU},
+    {.type = OP_NOT},
+    {.type = OP_JMP_IF, .content = 1},
 };
 
 std::vector <Op> op_at {
-	{.type = OP_PUSH_INT, .content = 10},
-	{.type = OP_PUSH_INT, .content = 20},
-	{.type = OP_PUSH_INT, .content = 30},
-	{.type = OP_PUSH_INT, .content = 40},
-	{.type = OP_PUSH_INT, .content = 50},
-	{.type = OP_PUSH_INT, .content = 60},
-	{.type = OP_PUSH_INT, .content =  2},
-	{.type = OP_AT},
-	{.type = OP_PUTI},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUSH_INT, .content = 20},
+    {.type = OP_PUSH_INT, .content = 30},
+    {.type = OP_PUSH_INT, .content = 40},
+    {.type = OP_PUSH_INT, .content = 50},
+    {.type = OP_PUSH_INT, .content = 60},
+    {.type = OP_PUSH_INT, .content =  2},
+    {.type = OP_AT},
+    {.type = OP_PUTI},
 };
 
 ////////// END EXAMPLES //////////
@@ -186,7 +186,7 @@ void usage(FILE* stream)
 int main(int argc, char *argv[])
 {
     std::string file_to_simulate;
-    
+
     if (argc < 2)
     {
         usage(stderr);
@@ -224,8 +224,8 @@ int main(int argc, char *argv[])
                       << "    hello\n"
                       << "    basics\n"
                       << "    readk\n"
-					  << "    op_at\n"
-					  << "    all\n";
+                      << "    op_at\n"
+                      << "    all\n";
             exit(0);
         }
         else if (compare(argv[i], "-e") || compare(argv[i], "--example"))
@@ -269,16 +269,16 @@ int main(int argc, char *argv[])
                 save("./basics.stasm", program);
                 exit(0);
             }
-			else if (chosen_example == "readk")
-			{
-			    save("./readk.stasm", readk);
-				exit(0);
-			}
-			else if (chosen_example == "op_at")
-			{
-				save("./op_at.stasm", op_at);
-				exit(0);
-			}
+            else if (chosen_example == "readk")
+            {
+                save("./readk.stasm", readk);
+                exit(0);
+            }
+            else if (chosen_example == "op_at")
+            {
+                save("./op_at.stasm", op_at);
+                exit(0);
+            }
             else if (chosen_example == "all")
             {
                 save("./lessngreater.stasm", lessngreater);
@@ -286,9 +286,9 @@ int main(int argc, char *argv[])
                 save("./counter.stasm", counter);
                 save("./ifs.stasm", ifs);
                 save("./hello.stasm", hello);
-				save("./readk.stasm", readk);				
+                save("./readk.stasm", readk);
                 save("./basics.stasm", program);
-				save("./op_at.stasm", program);
+                save("./op_at.stasm", program);
                 exit(0);
             }
             else

@@ -120,13 +120,13 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_AND});
         } break;
 
-		case 23: {
-			program.push_back({.type = OP_READK});
-		} break;
+        case 23: {
+            program.push_back({.type = OP_READK});
+        } break;
 
-		case 24: {
-			program.push_back({.type = OP_AT});
-		} break;
+        case 24: {
+            program.push_back({.type = OP_AT});
+        } break;
 
         default:
             std::cerr << "ERROR: Unreachable\n";
@@ -149,7 +149,7 @@ void save(std::string path, std::vector <Op> program)
         std::cerr << "ERROR: could not open file " << path << ": " << strerror(errno) << '\n';
         exit(3);
     }
-    
+
     for (size_t i = 0; i < program.size(); ++i)
     {
         switch (program[i].type)
@@ -245,13 +245,13 @@ void save(std::string path, std::vector <Op> program)
             stream.put(22);
         } break;
 
-		case OP_READK: {
-			stream.put(23);
-		} break;
+        case OP_READK: {
+            stream.put(23);
+        } break;
 
-		case OP_AT: {
-			stream.put(24);
-		} break;
+        case OP_AT: {
+            stream.put(24);
+        } break;
 
         default:
             std::cerr << "ERROR: Unreachable\n";
@@ -535,44 +535,44 @@ void simulate_program(std::vector <Op> program)
             }
         } break;
 
-		case OP_READK: {
-		    std::string str;
-			std::getline(std::cin, str);
-			
-			stack.push_back(10);
-			std::vector <char> items_to_push;
-			
-			for (auto &ch : str)
-			{
-				items_to_push.insert(items_to_push.begin(), (int) ch);
-			}
+        case OP_READK: {
+            std::string str;
+            std::getline(std::cin, str);
 
-			for (size_t item = 0; item < items_to_push.size(); ++item)
-			{
-				stack.push_back(items_to_push[item]);
-			}
+            stack.push_back(10);
+            std::vector <char> items_to_push;
 
-			stack.push_back(str.size() + 1);
-		} break;
+            for (auto &ch : str)
+            {
+                items_to_push.insert(items_to_push.begin(), (int) ch);
+            }
 
-		case OP_AT: {
-			if (stack.size() < 1)
-			{
-				std::cerr << "ERROR: Not enough items for OP_AT\n";
-				exit(1);
-			}
+            for (size_t item = 0; item < items_to_push.size(); ++item)
+            {
+                stack.push_back(items_to_push[item]);
+            }
 
-			int a = stack.back(); stack.pop_back();
-			
-			if ((long unsigned int) a > stack.size())
-			{
-				std::cerr << "ERROR: Element not found on the stack during the execution of OP_AT\n";
-				exit(1);
-			}
+            stack.push_back(str.size() + 1);
+        } break;
 
-			stack.push_back(stack[a]);
-		} break;
-			
+        case OP_AT: {
+            if (stack.size() < 1)
+            {
+                std::cerr << "ERROR: Not enough items for OP_AT\n";
+                exit(1);
+            }
+
+            int a = stack.back(); stack.pop_back();
+
+            if ((long unsigned int) a > stack.size())
+            {
+                std::cerr << "ERROR: Element not found on the stack during the execution of OP_AT\n";
+                exit(1);
+            }
+
+            stack.push_back(stack[a]);
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);

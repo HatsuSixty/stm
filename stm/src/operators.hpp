@@ -24,8 +24,8 @@ typedef enum {
     OP_NOT,
     OP_OR,
     OP_AND,
-	OP_READK,
-	OP_AT,
+    OP_READK,
+    OP_AT,
     OP_COUNT
 } OpType;
 
