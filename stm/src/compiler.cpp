@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 22 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 23 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -120,6 +120,10 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_AND});
         } break;
 
+		case 23: {
+			program.push_back({.type = OP_READK});
+		} break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -131,7 +135,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 22 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 23 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -237,6 +241,10 @@ void save(std::string path, std::vector <Op> program)
             stream.put(22);
         } break;
 
+		case OP_READK: {
+			stream.put(23);
+		} break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -248,7 +256,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 22 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 23 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
 
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -519,6 +527,19 @@ void simulate_program(std::vector <Op> program)
             }
         } break;
 
+		case OP_READK: {
+		    std::string str;
+			std::getline(std::cin, str);
+			
+			for (auto &ch : str)
+			{
+				stack.push_back((int) ch);
+			}
+			
+			stack.push_back(10);
+			stack.push_back(str.size() + 1);
+		} break;
+			
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);

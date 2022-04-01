@@ -128,6 +128,11 @@ std::vector <Op> andnor = {
     {.type = OP_PUTC},
 };
 
+std::vector <Op> readk {
+	{.type = OP_READK},
+	{.type = OP_DEBUG_STACK},
+};
+
 ////////// END EXAMPLES //////////
 
 bool compare(const char a[], const char b[])
@@ -160,6 +165,14 @@ void usage(FILE* stream)
 }
 
 int main(int argc, char *argv[])
+{
+    save("./test.stasm", readk);
+	std::vector <Op> sus = load("./test.stasm");
+	simulate_program(sus);
+    return 0;
+}
+
+int main2(int argc, char *argv[])
 {
     std::string file_to_simulate;
     
