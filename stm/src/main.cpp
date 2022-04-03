@@ -288,7 +288,7 @@ int main(int argc, char *argv[])
                 save("./hello.stasm", hello);
                 save("./readk.stasm", readk);
                 save("./basics.stasm", program);
-                save("./op_at.stasm", program);
+                save("./op_at.stasm", op_at);
                 exit(0);
             }
             else
