@@ -182,7 +182,7 @@ bool compare(const char a[], const char b[])
 void usage(FILE* stream)
 {
     fprintf(stream, "Usage:\n");
-    fprintf(stream, "    stm [flags]\n");
+    fprintf(stream, "    stm <flags>\n");
     fprintf(stream, "\n");
     fprintf(stream, "flags:\n");
     fprintf(stream, "    -h  | --help               - Print this help\n");
