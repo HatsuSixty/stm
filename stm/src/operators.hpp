@@ -26,6 +26,7 @@ typedef enum {
     OP_AND,
     OP_READK,
     OP_AT,
+    OP_NQDEBUG_STACK,
     OP_COUNT
 } OpType;
 

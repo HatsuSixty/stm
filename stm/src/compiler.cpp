@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 24 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 25 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -128,6 +128,10 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_AT});
         } break;
 
+        case 25: {
+            program.push_back({.type = OP_NQDEBUG_STACK});
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -139,7 +143,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 24 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 25 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -253,6 +257,10 @@ void save(std::string path, std::vector <Op> program)
             stream.put(24);
         } break;
 
+        case OP_NQDEBUG_STACK: {
+            stream.put(25);
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -264,7 +272,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 24 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 25 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <int> stack = {0};
 
     for (size_t ip = 0; ip < program.size(); ++ip)
@@ -571,6 +579,15 @@ void simulate_program(std::vector <Op> program)
             }
 
             stack.push_back(stack[a]);
+        } break;
+
+        case OP_NQDEBUG_STACK: {
+            std::cout << "\n!!NOTE!! - Current state of the stack:\nSTART\n";
+            for (size_t i = 0; i < stack.size(); ++i)
+            {
+                std::cout << stack[i] << " ";
+            }
+            std::cout << "\nEND\n";
         } break;
 
         default:
