@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 28 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 29 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -145,6 +145,10 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_TMP_DROP});
         } break;
 
+        case 29: {
+            program.push_back({.type = OP_NQDEBUG_TMP_BUFF});
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -156,7 +160,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 28 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 29 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -287,6 +291,10 @@ void save(std::string path, std::vector <Op> program)
             stream.put(28);
         } break;
 
+        case OP_NQDEBUG_TMP_BUFF: {
+            stream.put(29);
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -298,7 +306,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 28 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 29 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <long int> stack = {0};
     std::vector <long int> tmp_buffer;
 
@@ -618,13 +626,9 @@ void simulate_program(std::vector <Op> program)
         } break;
 
         case OP_PRINT: {
-            size_t strsize = (size_t) tmp_buffer.size();
-            std::string string;
-            for (size_t c = 0; c < strsize; ++c)
-            {
-                string[c] = tmp_buffer[c];
-            }
-            std::cout << string;
+            std::cerr << "TODO: The simulation of OP_PRINT is not implemented yet\n";
+            exit(1);
+            tmp_buffer = {};
         } break;
 
         case OP_TMP_PUSH_INT: {
@@ -633,6 +637,15 @@ void simulate_program(std::vector <Op> program)
 
         case OP_TMP_DROP: {
             tmp_buffer.pop_back();
+        } break;
+
+        case OP_NQDEBUG_TMP_BUFF: {
+            std::cout << "\n!!NOTE!! - Current state of the temporary buffer:\nSTART\n";
+            for (size_t i = 0; i < tmp_buffer.size(); ++i)
+            {
+                std::cout << tmp_buffer[i] << " ";
+            }
+            std::cout << "\nEND\n";
         } break;
 
         default:

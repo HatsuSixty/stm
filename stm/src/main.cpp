@@ -160,6 +160,16 @@ std::vector <Op> nqdebug {
     {.type = OP_NQDEBUG_STACK},
 };
 
+std::vector <Op> tmp_buff {
+    {.type = OP_TMP_PUSH_INT, .content = 10},
+    {.type = OP_TMP_PUSH_INT, .content = 10},
+    {.type = OP_TMP_DROP},
+    {.type = OP_TMP_PUSH_INT, .content = 10},
+    {.type = OP_NQDEBUG_TMP_BUFF},
+    {.type = OP_PRINT},
+    {.type = OP_NQDEBUG_TMP_BUFF},
+};
+
 ////////// END EXAMPLES //////////
 
 bool compare(const char a[], const char b[])
@@ -234,6 +244,7 @@ int main(int argc, char *argv[])
                       << "    readk\n"
                       << "    op_at\n"
                       << "    nqdebug\n"
+                      << "    tmp_buff"
                       << "    all\n";
             exit(0);
         }
@@ -293,6 +304,11 @@ int main(int argc, char *argv[])
                 save("./nqdebug.stasm", nqdebug);
                 exit(0);
             }
+            else if (chosen_example == "tmp_buff")
+            {
+                save("./tmp_buff.stasm", tmp_buff);
+                exit(0);
+            }
             else if (chosen_example == "all")
             {
                 save("./lessngreater.stasm", lessngreater);
@@ -304,6 +320,7 @@ int main(int argc, char *argv[])
                 save("./basics.stasm", program);
                 save("./op_at.stasm", op_at);
                 save("./nqdebug.stasm", nqdebug);
+                save("./tmp_buff.stasm", tmp_buff);
                 exit(0);
             }
             else

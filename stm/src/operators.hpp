@@ -30,6 +30,7 @@ typedef enum {
     OP_PRINT,
     OP_TMP_PUSH_INT,
     OP_TMP_DROP,
+    OP_NQDEBUG_TMP_BUFF,
     OP_COUNT
 } OpType;
 
