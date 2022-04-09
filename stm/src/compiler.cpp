@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 25 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 28 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -132,6 +132,19 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_NQDEBUG_STACK});
         } break;
 
+        case 26: {
+            program.push_back({.type = OP_PRINT});
+        } break;
+
+        case 27: {
+            int num = buffer[++i];
+            program.push_back({.type = OP_TMP_PUSH_INT, .content = num});
+        } break;
+
+        case 28: {
+            program.push_back({.type = OP_TMP_DROP});
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -143,7 +156,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 25 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 28 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -261,6 +274,19 @@ void save(std::string path, std::vector <Op> program)
             stream.put(25);
         } break;
 
+        case OP_PRINT: {
+            stream.put(26);
+        } break;
+
+        case OP_TMP_PUSH_INT: {
+            stream.put(27);
+            stream.put(program[i].content);
+        } break;
+
+        case OP_TMP_DROP: {
+            stream.put(28);
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -272,8 +298,9 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 25 /* Exhaustive handling of OPs in simulate_program() */);
-    std::vector <int> stack = {0};
+    static_assert(OP_COUNT == 28 /* Exhaustive handling of OPs in simulate_program() */);
+    std::vector <long int> stack = {0};
+    std::vector <long int> tmp_buffer;
 
     for (size_t ip = 0; ip < program.size(); ++ip)
     {
@@ -588,6 +615,24 @@ void simulate_program(std::vector <Op> program)
                 std::cout << stack[i] << " ";
             }
             std::cout << "\nEND\n";
+        } break;
+
+        case OP_PRINT: {
+            size_t strsize = (size_t) tmp_buffer.size();
+            std::string string;
+            for (size_t c = 0; c < strsize; ++c)
+            {
+                string[c] = tmp_buffer[c];
+            }
+            std::cout << string;
+        } break;
+
+        case OP_TMP_PUSH_INT: {
+            tmp_buffer.push_back(program[ip].content);
+        } break;
+
+        case OP_TMP_DROP: {
+            tmp_buffer.pop_back();
         } break;
 
         default:
