@@ -161,10 +161,10 @@ std::vector <Op> nqdebug {
 };
 
 std::vector <Op> tmp_buff {
-    {.type = OP_TMP_PUSH_INT, .content = 10},
-    {.type = OP_TMP_PUSH_INT, .content = 10},
+    {.type = OP_TMP_PUSH_INT, .content = 100},
+    {.type = OP_TMP_PUSH_INT, .content = 101},
     {.type = OP_TMP_DROP},
-    {.type = OP_TMP_PUSH_INT, .content = 10},
+    {.type = OP_TMP_PUSH_INT, .content = 101},
     {.type = OP_NQDEBUG_TMP_BUFF},
     {.type = OP_PRINT},
     {.type = OP_NQDEBUG_TMP_BUFF},

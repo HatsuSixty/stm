@@ -629,7 +629,7 @@ void simulate_program(std::vector <Op> program)
             std::string str;
             while (!tmp_buffer.empty())
             {
-                long int c = tmp_buffer.back(); tmp_buffer.pop_back();
+                long int c = tmp_buffer.front(); tmp_buffer.erase(tmp_buffer.begin());
                 str.push_back((char) c);
             }
             std::cout << str;
