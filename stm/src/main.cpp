@@ -39,36 +39,21 @@ std::vector <Op> program = {
 };
 
 std::vector <Op> hello = {
-    {.type = OP_PUSH_INT},
-    {.type = OP_PUSH_INT, .content = 104}, //h
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 101}, //e
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 108}, //l
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 108}, //l
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 111}, //o
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content =  44}, //,
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content =  32}, //
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 119}, //w
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 111}, //o
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 114}, //r
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 108}, //l
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content = 100}, //d
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content =  33}, //!
-    {.type = OP_PUTC},
-    {.type = OP_PUSH_INT, .content =  10}, //new line
-    {.type = OP_PUTC},
-    {.type = OP_JMP, .content = 0},
+    {.type = OP_TMP_PUSH_INT, .content = 104},
+    {.type = OP_TMP_PUSH_INT, .content = 101},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content = 111},
+    {.type = OP_TMP_PUSH_INT, .content =  44},
+    {.type = OP_TMP_PUSH_INT, .content =  32},
+    {.type = OP_TMP_PUSH_INT, .content = 119},
+    {.type = OP_TMP_PUSH_INT, .content = 111},
+    {.type = OP_TMP_PUSH_INT, .content = 114},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content = 100},
+    {.type = OP_TMP_PUSH_INT, .content =  33},
+    {.type = OP_TMP_PUSH_INT, .content =  10},
+    {.type = OP_PRINT},
 };
 
 std::vector <Op> ifs = {
