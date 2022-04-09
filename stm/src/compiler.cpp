@@ -579,23 +579,15 @@ void simulate_program(std::vector <Op> program)
         } break;
 
         case OP_READK: {
+            tmp_buffer = {};
             std::string str;
             std::getline(std::cin, str);
 
-            stack.push_back(10);
-            std::vector <char> items_to_push;
-
             for (auto &ch : str)
             {
-                items_to_push.insert(items_to_push.begin(), (int) ch);
+                tmp_buffer.push_back((char) ch);
             }
-
-            for (size_t item = 0; item < items_to_push.size(); ++item)
-            {
-                stack.push_back(items_to_push[item]);
-            }
-
-            stack.push_back(str.size() + 1);
+            tmp_buffer.push_back((char) 10);
         } break;
 
         case OP_AT: {

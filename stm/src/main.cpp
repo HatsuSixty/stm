@@ -130,14 +130,7 @@ std::vector <Op> andnor = {
 
 std::vector <Op> readk {
     {.type = OP_READK},
-    {.type = OP_SWAP},
-    {.type = OP_PUTC},
-    {.type = OP_SWAP},
-    {.type = OP_DUP},
-    {.type = OP_PUSH_INT, .content = 0},
-    {.type = OP_EQU},
-    {.type = OP_NOT},
-    {.type = OP_JMP_IF, .content = 1},
+    {.type = OP_PRINT},
 };
 
 std::vector <Op> op_at {
