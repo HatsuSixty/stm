@@ -626,8 +626,13 @@ void simulate_program(std::vector <Op> program)
         } break;
 
         case OP_PRINT: {
-            std::cerr << "TODO: The simulation of OP_PRINT is not implemented yet\n";
-            exit(1);
+            std::string str;
+            while (!tmp_buffer.empty())
+            {
+                long int c = tmp_buffer.back(); tmp_buffer.pop_back();
+                str.push_back((char) c);
+            }
+            std::cout << str;
             tmp_buffer = {};
         } break;
 
