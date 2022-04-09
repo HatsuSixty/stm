@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 29 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 30 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -149,6 +149,10 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_NQDEBUG_TMP_BUFF});
         } break;
 
+        case 30: {
+            program.push_back({.type = OP_TMP_AT});
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -160,7 +164,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 29 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 30 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -295,6 +299,10 @@ void save(std::string path, std::vector <Op> program)
             stream.put(29);
         } break;
 
+        case OP_TMP_AT: {
+            stream.put(30);
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -306,7 +314,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 29 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 30 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <long int> stack = {0};
     std::vector <long int> tmp_buffer;
 
@@ -605,6 +613,12 @@ void simulate_program(std::vector <Op> program)
                 exit(1);
             }
 
+            if (a < 0)
+            {
+                std::cerr << "ERROR: Use negative numbers to access the stack is not allowed\n";
+                exit(1);
+            }
+
             stack.push_back(stack[a]);
         } break;
 
@@ -643,6 +657,30 @@ void simulate_program(std::vector <Op> program)
                 std::cout << tmp_buffer[i] << " ";
             }
             std::cout << "\nEND\n";
+        } break;
+
+        case OP_TMP_AT: {
+            if (stack.size() < 1)
+            {
+                std::cerr << "ERROR: Not enough items for OP_TMP_AT\n";
+                exit(1);
+            }
+
+            int a = stack.back(); stack.pop_back();
+
+            if ((long unsigned int) a > tmp_buffer.size())
+            {
+                std::cerr << "ERROR: Element not found on the stack during the execution of OP_TMP_AT\n";
+                exit(1);
+            }
+
+            if (a < 0)
+            {
+                std::cerr << "ERROR: Use negative numbers to access the temporary buffer is not allowed\n";
+                exit(1);
+            }
+
+            stack.push_back(tmp_buffer[a]);
         } break;
 
         default:
