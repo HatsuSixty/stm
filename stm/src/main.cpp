@@ -163,6 +163,20 @@ std::vector <Op> op_tmp_at = {
     {.type = OP_PUTC},
 };
 
+std::vector <Op> tmp_arr {
+    {.type = OP_ARR_PUSH_INT, .content = 10},
+    {.type = OP_ARR_PUSH_INT, .content = 20},
+    {.type = OP_ARR_DROP},
+    {.type = OP_ARR_PUSH_INT, .content = 20},
+    {.type = OP_ARR_PUSH_INT, .content = 30},
+    {.type = OP_PUSH_INT, .content = 0},
+    {.type = OP_ARR_AT},
+    {.type = OP_PUTI},
+    {.type = OP_PUSH_INT, .content = 10},
+    {.type = OP_PUTC},
+    {.type = OP_NQDEBUG_TMP_ARR},
+};
+
 ////////// END EXAMPLES //////////
 
 bool compare(const char a[], const char b[])
@@ -239,6 +253,7 @@ int main(int argc, char *argv[])
                       << "    nqdebug\n"
                       << "    tmp_buff"
                       << "    op_tmp_at\n"
+                      << "    tmp_arr"
                       << "    all\n";
             exit(0);
         }
@@ -308,6 +323,11 @@ int main(int argc, char *argv[])
                 save("./op_tmp_at.stasm", op_tmp_at);
                 exit(0);
             }
+            else if (chosen_example == "tmp_arr")
+            {
+                save("./tmp_arr.stasm", tmp_arr);
+                exit(0);
+            }
             else if (chosen_example == "all")
             {
                 save("./lessngreater.stasm", lessngreater);
@@ -321,6 +341,7 @@ int main(int argc, char *argv[])
                 save("./nqdebug.stasm", nqdebug);
                 save("./tmp_buff.stasm", tmp_buff);
                 save("./op_tmp_at.stasm", op_tmp_at);
+                save("./tmp_arr.stasm", tmp_arr);
                 exit(0);
             }
             else
