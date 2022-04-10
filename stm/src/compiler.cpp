@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 30 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 34 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -153,6 +153,23 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_TMP_AT});
         } break;
 
+        case 31: {
+            int num = buffer[++i];
+            program.push_back({.type = OP_ARR_PUSH_INT, .content = num});
+        } break;
+
+        case 32: {
+            program.push_back({.type = OP_ARR_DROP});
+        } break;
+
+        case 33: {
+            program.push_back({.type = OP_ARR_AT});
+        } break;
+
+        case 34: {
+            program.push_back({.type = OP_NQDEBUG_TMP_ARR});
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -164,7 +181,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 30 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 34 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -303,6 +320,23 @@ void save(std::string path, std::vector <Op> program)
             stream.put(30);
         } break;
 
+        case OP_ARR_PUSH_INT: {
+            stream.put(31);
+            stream.put(program[i].content);
+        } break;
+
+        case OP_ARR_DROP: {
+            stream.put(32);
+        } break;
+
+        case OP_ARR_AT: {
+            stream.put(33);
+        } break;
+
+        case OP_NQDEBUG_TMP_ARR: {
+            stream.put(34);
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -314,9 +348,10 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 30 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 34 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <long int> stack = {0};
-    std::vector <long int> tmp_buffer;
+    std::vector <long int> tmp_buff;
+    std::vector <long int> tmp_vect;
 
     for (size_t ip = 0; ip < program.size(); ++ip)
     {
@@ -587,15 +622,15 @@ void simulate_program(std::vector <Op> program)
         } break;
 
         case OP_READK: {
-            tmp_buffer = {};
+            tmp_buff = {};
             std::string str;
             std::getline(std::cin, str);
 
             for (auto &ch : str)
             {
-                tmp_buffer.push_back((char) ch);
+                tmp_buff.push_back((char) ch);
             }
-            tmp_buffer.push_back((char) 10);
+            tmp_buff.push_back((char) 10);
         } break;
 
         case OP_AT: {
@@ -633,28 +668,28 @@ void simulate_program(std::vector <Op> program)
 
         case OP_PRINT: {
             std::string str;
-            while (!tmp_buffer.empty())
+            while (!tmp_buff.empty())
             {
-                long int c = tmp_buffer.front(); tmp_buffer.erase(tmp_buffer.begin());
+                long int c = tmp_buff.front(); tmp_buff.erase(tmp_buff.begin());
                 str.push_back((char) c);
             }
             std::cout << str;
-            tmp_buffer = {};
+            tmp_buff = {};
         } break;
 
         case OP_TMP_PUSH_INT: {
-            tmp_buffer.push_back(program[ip].content);
+            tmp_buff.push_back(program[ip].content);
         } break;
 
         case OP_TMP_DROP: {
-            tmp_buffer.pop_back();
+            tmp_buff.pop_back();
         } break;
 
         case OP_NQDEBUG_TMP_BUFF: {
             std::cout << "\n!!NOTE!! - Current state of the temporary buffer:\nSTART\n";
-            for (size_t i = 0; i < tmp_buffer.size(); ++i)
+            for (size_t i = 0; i < tmp_buff.size(); ++i)
             {
-                std::cout << tmp_buffer[i] << " ";
+                std::cout << tmp_buff[i] << " ";
             }
             std::cout << "\nEND\n";
         } break;
@@ -668,7 +703,7 @@ void simulate_program(std::vector <Op> program)
 
             int a = stack.back(); stack.pop_back();
 
-            if ((long unsigned int) a > tmp_buffer.size())
+            if ((long unsigned int) a > tmp_buff.size())
             {
                 std::cerr << "ERROR: Element not found on the stack during the execution of OP_TMP_AT\n";
                 exit(1);
@@ -680,7 +715,48 @@ void simulate_program(std::vector <Op> program)
                 exit(1);
             }
 
-            stack.push_back(tmp_buffer[a]);
+            stack.push_back(tmp_buff[a]);
+        } break;
+
+        case OP_ARR_PUSH_INT: {
+            tmp_vect.push_back(program[ip].content);
+        } break;
+
+        case OP_ARR_DROP: {
+            tmp_vect.pop_back();
+        } break;
+
+        case OP_ARR_AT: {
+            if (stack.size() < 1)
+            {
+                std::cerr << "ERROR: Not enough items for OP_ARR_AT\n";
+                exit(1);
+            }
+
+            int a = stack.back(); stack.pop_back();
+
+            if ((long unsigned int) a > tmp_vect.size())
+            {
+                std::cerr << "ERROR: Element not found on the stack during the execution of OP_ARR_AT\n";
+                exit(1);
+            }
+
+            if (a < 0)
+            {
+                std::cerr << "ERROR: Use negative numbers to access the temporary array is not allowed\n";
+                exit(1);
+            }
+
+            stack.push_back(tmp_vect[a]);
+        } break;
+
+        case OP_NQDEBUG_TMP_ARR: {
+            std::cout << "\n!!NOTE!! - Current state of the temporary array:\nSTART\n";
+            for (size_t i = 0; i < tmp_vect.size(); ++i)
+            {
+                std::cout << tmp_vect[i] << " ";
+            }
+            std::cout << "\nEND\n";
         } break;
 
         default:
