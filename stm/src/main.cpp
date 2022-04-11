@@ -225,7 +225,7 @@ void usage(FILE* stream)
     fprintf(stream, "\n");
     fprintf(stream, "flags:\n");
     fprintf(stream, "    -h  | --help               - Print this help\n");
-    fprintf(stream, "    -f  | --file <input.stm> - Simulate the specified file\n");
+    fprintf(stream, "    -f  | --file <input.stm>   - Simulate the specified file\n");
     fprintf(stream, "    -e  | --example <example>  - Generate the specified example\n");
     fprintf(stream, "    -le | --list-examples      - List avaiable examples\n");
 }
