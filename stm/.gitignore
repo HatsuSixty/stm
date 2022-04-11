@@ -1,3 +1,4 @@
 *.o
+.mypy_cache
 hello.txt
 stm

@@ -1,0 +1,9 @@
+:i argc 0
+:b stdin 6
+hello!
+:i returncode 0
+:b stdout 7
+hello!
+
+:b stderr 0
+

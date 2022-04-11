@@ -1,0 +1,18 @@
+:i argc 0
+:b stdin 0
+
+:i returncode 0
+:b stdout 134
+
+!!NOTE!! - Current state of the temporary buffer:
+START
+100 101 
+END
+de
+!!NOTE!! - Current state of the temporary buffer:
+START
+
+END
+
+:b stderr 0
+

@@ -1,0 +1,14 @@
+:i argc 0
+:b stdin 0
+
+:i returncode 0
+:b stdout 73
+10
+
+!!NOTE!! - Current state of the temporary array:
+START
+10 20 30 
+END
+
+:b stderr 0
+
