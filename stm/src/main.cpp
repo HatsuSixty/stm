@@ -35,7 +35,6 @@ std::vector <Op> program = {
     {.type = OP_PUTI},
     {.type = OP_PUSH_INT, .content = 10},
     {.type = OP_PUTC},
-    {.type = OP_JMP, .content = 0},
 };
 
 std::vector <Op> hello = {
