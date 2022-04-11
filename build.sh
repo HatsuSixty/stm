@@ -5,7 +5,7 @@ set -x
 #### STM ####
 
 cd ./stm/
-./test.py
+./test.py ./examples/
 make
 if [ -f "./stm" ]; then
     cp -v ./stm ../bin/stm
