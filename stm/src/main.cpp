@@ -176,7 +176,7 @@ std::vector <Op> tmp_arr {
     {.type = OP_NQDEBUG_TMP_ARR},
 };
 
-std::vector <Op> files = { // 104,101,108,108,111,46,116,120,116
+std::vector <Op> files = {
     {.type = OP_TMP_PUSH_INT, .content = 104},
     {.type = OP_TMP_PUSH_INT, .content = 101},
     {.type = OP_TMP_PUSH_INT, .content = 108},
