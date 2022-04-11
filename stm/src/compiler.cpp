@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 34 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 41 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -10,7 +10,7 @@ std::vector <Op> load(std::string path)
 
     if (!infile.is_open())
     {
-        std::cerr << "ERROR: could not open file " << path << ": " << strerror(errno) << '\n';
+        std::cerr << "ERROR: Could not open file " << path << ": " << strerror(errno) << '\n';
         exit(3);
     }
 
@@ -170,6 +170,34 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_NQDEBUG_TMP_ARR});
         } break;
 
+        case 35: {
+            program.push_back({.type = OP_OPEN});
+        } break;
+
+        case 36: {
+            program.push_back({.type = OP_CLOSE});
+        } break;
+
+        case 37: {
+            program.push_back({.type = OP_WRITE});
+        } break;
+
+        case 38: {
+            program.push_back({.type = OP_READ});
+        } break;
+
+        case 39: {
+            program.push_back({.type = OP_PUT});
+        } break;
+
+        case 40: {
+            program.push_back({.type = OP_RAND});
+        } break;
+
+        case 41: {
+            program.push_back({.type = OP_MOD});
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -181,14 +209,14 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 34 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 41 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
 
     if (!stream.is_open())
     {
-        std::cerr << "ERROR: could not open file " << path << ": " << strerror(errno) << '\n';
+        std::cerr << "ERROR: Could not open file " << path << ": " << strerror(errno) << '\n';
         exit(3);
     }
 
@@ -337,6 +365,34 @@ void save(std::string path, std::vector <Op> program)
             stream.put(34);
         } break;
 
+        case OP_OPEN: {
+            stream.put(35);
+        } break;
+
+        case OP_CLOSE: {
+            stream.put(36);
+        } break;
+
+        case OP_WRITE: {
+            stream.put(37);
+        } break;
+
+        case OP_READ: {
+            stream.put(38);
+        } break;
+
+        case OP_PUT: {
+            stream.put(39);
+        } break;
+
+        case OP_RAND: {
+            stream.put(40);
+        } break;
+
+        case OP_MOD: {
+            stream.put(41);
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -348,10 +404,12 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 34 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 41 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <long int> stack = {0};
     std::vector <long int> tmp_buff;
     std::vector <long int> tmp_vect;
+
+    std::fstream progstream;
 
     for (size_t ip = 0; ip < program.size(); ++ip)
     {
@@ -360,7 +418,7 @@ void simulate_program(std::vector <Op> program)
         case OP_PLUS: {
             if (stack.size() < 2)
             {
-                std::cerr << "ERROR: not enough items for OP_PLUS\n";
+                std::cerr << "ERROR: Not enough items for OP_PLUS\n";
                 exit(1);
             }
             int a = stack.back(); stack.pop_back();
@@ -371,7 +429,7 @@ void simulate_program(std::vector <Op> program)
         case OP_MINUS: {
             if (stack.size() < 2)
             {
-                std::cerr << "ERROR: not enough items for OP_MINUS\n";
+                std::cerr << "ERROR: Not enough items for OP_MINUS\n";
                 exit(1);
             }
             int a = stack.back(); stack.pop_back();
@@ -382,7 +440,7 @@ void simulate_program(std::vector <Op> program)
         case OP_MULT: {
             if (stack.size() < 2)
             {
-                std::cerr << "ERROR: not enough items for OP_MULT\n";
+                std::cerr << "ERROR: Not enough items for OP_MULT\n";
                 exit(1);
             }
             int a = stack.back(); stack.pop_back();
@@ -393,7 +451,7 @@ void simulate_program(std::vector <Op> program)
         case OP_DIV: {
             if (stack.size() < 2)
             {
-                std::cerr << "ERROR: not enough items for OP_DIV\n";
+                std::cerr << "ERROR: Not enough items for OP_DIV\n";
                 exit(1);
             }
             int a = stack.back(); stack.pop_back();
@@ -408,7 +466,7 @@ void simulate_program(std::vector <Op> program)
         case OP_PUTC: {
             if (stack.size() < 1)
             {
-                std::cerr << "ERROR: not enough items for OP_PUTC\n";
+                std::cerr << "ERROR: Not enough items for OP_PUTC\n";
                 exit(1);
             }
             std::cout << (char) stack.back(); stack.pop_back();
@@ -417,7 +475,7 @@ void simulate_program(std::vector <Op> program)
         case OP_PUTI: {
             if (stack.size() < 1)
             {
-                std::cerr << "ERROR: not enough items for OP_PUTI\n";
+                std::cerr << "ERROR: Not enough items for OP_PUTI\n";
                 exit(1);
             }
             std::cout << stack.back(); stack.pop_back();
@@ -426,7 +484,7 @@ void simulate_program(std::vector <Op> program)
         case OP_DROP: {
             if (stack.size() < 1)
             {
-                std::cerr << "ERROR: not enough items for OP_DROP\n";
+                std::cerr << "ERROR: Not enough items for OP_DROP\n";
                 exit(1);
             }
             stack.pop_back();
@@ -435,7 +493,7 @@ void simulate_program(std::vector <Op> program)
         case OP_DUP: {
             if (stack.size() < 1)
             {
-                std::cerr << "ERROR: not enough items for OP_DUP\n";
+                std::cerr << "ERROR: Not enough items for OP_DUP\n";
                 exit(1);
             }
             stack.push_back(stack.back());
@@ -444,7 +502,7 @@ void simulate_program(std::vector <Op> program)
         case OP_SWAP: {
             if (stack.size() < 2)
             {
-                std::cerr << "ERROR: not enough items for OP_SWAP\n";
+                std::cerr << "ERROR: Not enough items for OP_SWAP\n";
                 exit(1);
             }
             int a = stack.back(); stack.pop_back();
@@ -467,7 +525,7 @@ void simulate_program(std::vector <Op> program)
         case OP_OVER: {
             if (stack.size() < 1)
             {
-                std::cerr << "ERROR: not enough items for OP_OVER\n";
+                std::cerr << "ERROR: Not enough items for OP_OVER\n";
                 exit(1);
             }
             int a = stack[1];
@@ -481,7 +539,7 @@ void simulate_program(std::vector <Op> program)
         case OP_JMP_IF: {
             if (stack.size() < 1)
             {
-                std::cerr << "ERROR: not enough items for OP_JMP_IF\n";
+                std::cerr << "ERROR: Not enough items for OP_JMP_IF\n";
                 exit(1);
             }
 
@@ -757,6 +815,113 @@ void simulate_program(std::vector <Op> program)
                 std::cout << tmp_vect[i] << " ";
             }
             std::cout << "\nEND\n";
+        } break;
+
+        case OP_OPEN: {
+            if (tmp_buff.empty())
+            {
+                std::cerr << "ERROR: Input file name is not provided\n";
+                exit(1);
+            }
+
+            if (progstream.is_open())
+            {
+                std::cerr << "ERROR: Another file is already open\n";
+                exit(1);
+            }
+
+            std::string str;
+            while (!tmp_buff.empty())
+            {
+                long int c = tmp_buff.front(); tmp_buff.erase(tmp_buff.begin());
+                str.push_back((char) c);
+            }
+            tmp_buff = {};
+
+            progstream.open(str, std::fstream::in|std::fstream::out);
+        } break;
+
+        case OP_CLOSE: {
+            if (!progstream.is_open())
+            {
+                std::cerr << "ERROR: File is already closed\n";
+                exit(1);
+            }
+
+            progstream.close();
+        } break;
+
+        case OP_WRITE: {
+            if (!progstream.is_open())
+            {
+                std::cerr << "ERROR: The file stream is not open\n";
+                exit(1);
+            }
+
+            if (tmp_buff.empty())
+            {
+                std::cerr << "ERROR: Line to write to the file is not provided\n";
+                exit(1);
+            }
+
+            std::string str;
+            while (!tmp_buff.empty())
+            {
+                long int c = tmp_buff.front(); tmp_buff.erase(tmp_buff.begin());
+                str.push_back((char) c);
+            }
+            tmp_buff = {};
+
+            progstream << str;
+        } break;
+
+        case OP_READ: {
+            if (!progstream.is_open())
+            {
+                std::cerr << "ERROR: The file stream is not open\n";
+                exit(1);
+            }
+
+            std::string str;
+            progstream >> str;
+
+            for (auto &ch : str)
+            {
+                tmp_buff.push_back((char) ch);
+            }
+        } break;
+
+        case OP_PUT: {
+            if (stack.size() < 1)
+            {
+                std::cerr << "ERROR: Not enough items for OP_PUT\n";
+                exit(1);
+            }
+
+            if (!progstream.is_open())
+            {
+                std::cerr << "ERROR: The file stream is not open\n";
+                exit(1);
+            }
+
+            int a = stack.back(); stack.pop_back();
+
+            progstream.put(a);
+        } break;
+
+        case OP_RAND: {
+            stack.push_back(rand());
+        } break;
+
+        case OP_MOD: {
+            if (stack.size() < 2)
+            {
+                std::cerr << "ERROR: Not enough items for OP_MOD\n";
+                exit(1);
+            }
+            int a = stack.back(); stack.pop_back();
+            int b = stack.back(); stack.pop_back();
+            stack.push_back(b % a);
         } break;
 
         default:

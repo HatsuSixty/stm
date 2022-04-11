@@ -36,6 +36,13 @@ typedef enum {
     OP_ARR_DROP,
     OP_ARR_AT,
     OP_NQDEBUG_TMP_ARR,
+    OP_OPEN,
+    OP_CLOSE,
+    OP_WRITE,
+    OP_READ,
+    OP_PUT,
+    OP_RAND,
+    OP_MOD,
     OP_COUNT
 } OpType;
 
