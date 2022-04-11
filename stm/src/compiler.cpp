@@ -410,6 +410,7 @@ void simulate_program(std::vector <Op> program)
     std::vector <long int> tmp_vect;
 
     std::fstream progstream;
+    std::string curf;
 
     for (size_t ip = 0; ip < program.size(); ++ip)
     {
@@ -836,6 +837,7 @@ void simulate_program(std::vector <Op> program)
                 str.push_back((char) c);
             }
             tmp_buff = {};
+            curf = str;
 
             if (!std::filesystem::is_regular_file(str))
             {
@@ -859,6 +861,7 @@ void simulate_program(std::vector <Op> program)
                 exit(1);
             }
 
+            curf = "";
             progstream.close();
         } break;
 
@@ -893,10 +896,14 @@ void simulate_program(std::vector <Op> program)
                 std::cerr << "ERROR: The file stream is not open\n";
                 exit(1);
             }
+            progstream.close();
 
-            std::string str;
-            progstream >> str;
+            std::fstream ifs(curf, std::fstream::in);
+            std::string str((std::istreambuf_iterator<char>(ifs)),
+                            (std::istreambuf_iterator<char>()));
+            ifs.close();
 
+            progstream.open(curf, std::fstream::in|std::fstream::out);
             for (auto &ch : str)
             {
                 tmp_buff.push_back((char) ch);

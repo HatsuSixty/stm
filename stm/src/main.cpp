@@ -195,6 +195,8 @@ std::vector <Op> files = { // 104,101,108,108,111,46,116,120,116
     {.type = OP_TMP_PUSH_INT, .content = 111},
     {.type = OP_TMP_PUSH_INT, .content =  10},
     {.type = OP_WRITE},
+    {.type = OP_READ},
+    {.type = OP_PRINT},
     {.type = OP_CLOSE},
 };
 
