@@ -226,7 +226,7 @@ void usage(FILE* stream)
     fprintf(stream, "\n");
     fprintf(stream, "flags:\n");
     fprintf(stream, "    -h  | --help               - Print this help\n");
-    fprintf(stream, "    -f  | --file <input.stasm> - Simulate the specified file\n");
+    fprintf(stream, "    -f  | --file <input.stm> - Simulate the specified file\n");
     fprintf(stream, "    -e  | --example <example>  - Generate the specified example\n");
     fprintf(stream, "    -le | --list-examples      - List avaiable examples\n");
 }
@@ -294,84 +294,84 @@ int main(int argc, char *argv[])
 
             if (chosen_example == "lessngreater")
             {
-                save("./lessngreater.stasm", lessngreater);
+                save("./lessngreater.stm", lessngreater);
                 exit(0);
             }
             else if (chosen_example == "andnor")
             {
-                save("./andnor.stasm", andnor);
+                save("./andnor.stm", andnor);
                 exit(0);
             }
             else if (chosen_example == "counter")
             {
-                save("./counter.stasm", counter);
+                save("./counter.stm", counter);
                 exit(0);
             }
             else if (chosen_example == "ifs")
             {
-                save("./ifs.stasm", ifs);
+                save("./ifs.stm", ifs);
                 exit(0);
             }
             else if (chosen_example == "hello")
             {
-                save("./hello.stasm", hello);
+                save("./hello.stm", hello);
                 exit(0);
             }
             else if (chosen_example == "basics")
             {
-                save("./basics.stasm", program);
+                save("./basics.stm", program);
                 exit(0);
             }
             else if (chosen_example == "readk")
             {
-                save("./readk.stasm", readk);
+                save("./readk.stm", readk);
                 exit(0);
             }
             else if (chosen_example == "op_at")
             {
-                save("./op_at.stasm", op_at);
+                save("./op_at.stm", op_at);
                 exit(0);
             }
             else if (chosen_example == "nqdebug")
             {
-                save("./nqdebug.stasm", nqdebug);
+                save("./nqdebug.stm", nqdebug);
                 exit(0);
             }
             else if (chosen_example == "tmp_buff")
             {
-                save("./tmp_buff.stasm", tmp_buff);
+                save("./tmp_buff.stm", tmp_buff);
                 exit(0);
             }
             else if (chosen_example == "op_tmp_at")
             {
-                save("./op_tmp_at.stasm", op_tmp_at);
+                save("./op_tmp_at.stm", op_tmp_at);
                 exit(0);
             }
             else if (chosen_example == "tmp_arr")
             {
-                save("./tmp_arr.stasm", tmp_arr);
+                save("./tmp_arr.stm", tmp_arr);
                 exit(0);
             }
             else if (chosen_example == "files")
             {
-                save("./files.stasm", files);
+                save("./files.stm", files);
                 exit(0);
             }
             else if (chosen_example == "all")
             {
-                save("./lessngreater.stasm", lessngreater);
-                save("./andnor.stasm", andnor);
-                save("./counter.stasm", counter);
-                save("./ifs.stasm", ifs);
-                save("./hello.stasm", hello);
-                save("./readk.stasm", readk);
-                save("./basics.stasm", program);
-                save("./op_at.stasm", op_at);
-                save("./nqdebug.stasm", nqdebug);
-                save("./tmp_buff.stasm", tmp_buff);
-                save("./op_tmp_at.stasm", op_tmp_at);
-                save("./tmp_arr.stasm", tmp_arr);
-                save("./files.stasm", files);
+                save("./lessngreater.stm", lessngreater);
+                save("./andnor.stm", andnor);
+                save("./counter.stm", counter);
+                save("./ifs.stm", ifs);
+                save("./hello.stm", hello);
+                save("./readk.stm", readk);
+                save("./basics.stm", program);
+                save("./op_at.stm", op_at);
+                save("./nqdebug.stm", nqdebug);
+                save("./tmp_buff.stm", tmp_buff);
+                save("./op_tmp_at.stm", op_tmp_at);
+                save("./tmp_arr.stm", tmp_arr);
+                save("./files.stm", files);
                 exit(0);
             }
             else
