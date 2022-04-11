@@ -829,22 +829,26 @@ void simulate_program(std::vector <Op> program)
                 std::cerr << "ERROR: Another file is already open\n";
                 exit(1);
             }
+            std::string str;
+            while (!tmp_buff.empty())
+            {
+                long int c = tmp_buff.front(); tmp_buff.erase(tmp_buff.begin());
+                str.push_back((char) c);
+            }
+            tmp_buff = {};
+
+            if (!std::filesystem::is_regular_file(str))
+            {
+                std::ofstream ofile(str);
+                ofile << ' ';
+                ofile.close();
+            }
+
+            progstream.open(str, std::fstream::in|std::fstream::out);
 
             if (!progstream.is_open())
             {
                 stack.push_back(-1);
-            }
-            else
-            {
-                std::string str;
-                while (!tmp_buff.empty())
-                {
-                    long int c = tmp_buff.front(); tmp_buff.erase(tmp_buff.begin());
-                    str.push_back((char) c);
-                }
-                tmp_buff = {};
-
-                progstream.open(str, std::fstream::in|std::fstream::out);
             }
         } break;
 
