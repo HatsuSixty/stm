@@ -1,4 +1,5 @@
 *.o
 .mypy_cache
 hello.txt
+!examples/hello.txt
 stm
