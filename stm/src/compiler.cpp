@@ -830,15 +830,22 @@ void simulate_program(std::vector <Op> program)
                 exit(1);
             }
 
-            std::string str;
-            while (!tmp_buff.empty())
+            if (!progstream.is_open())
             {
-                long int c = tmp_buff.front(); tmp_buff.erase(tmp_buff.begin());
-                str.push_back((char) c);
+                stack.push_back(-1);
             }
-            tmp_buff = {};
+            else
+            {
+                std::string str;
+                while (!tmp_buff.empty())
+                {
+                    long int c = tmp_buff.front(); tmp_buff.erase(tmp_buff.begin());
+                    str.push_back((char) c);
+                }
+                tmp_buff = {};
 
-            progstream.open(str, std::fstream::in|std::fstream::out);
+                progstream.open(str, std::fstream::in|std::fstream::out);
+            }
         } break;
 
         case OP_CLOSE: {
@@ -876,6 +883,7 @@ void simulate_program(std::vector <Op> program)
         } break;
 
         case OP_READ: {
+            tmp_buff = {};
             if (!progstream.is_open())
             {
                 std::cerr << "ERROR: The file stream is not open\n";

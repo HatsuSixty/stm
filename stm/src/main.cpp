@@ -177,6 +177,31 @@ std::vector <Op> tmp_arr {
     {.type = OP_NQDEBUG_TMP_ARR},
 };
 
+std::vector <Op> files = { // 104,101,108,108,111,46,116,120,116
+    {.type = OP_TMP_PUSH_INT, .content = 104},
+    {.type = OP_TMP_PUSH_INT, .content = 101},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content = 111},
+    {.type = OP_TMP_PUSH_INT, .content =  46},
+    {.type = OP_TMP_PUSH_INT, .content = 116},
+    {.type = OP_TMP_PUSH_INT, .content = 120},
+    {.type = OP_TMP_PUSH_INT, .content = 116},
+    {.type = OP_OPEN},
+    {.type = OP_TMP_PUSH_INT, .content = 104},
+    {.type = OP_TMP_PUSH_INT, .content = 101},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content = 111},
+    {.type = OP_TMP_PUSH_INT, .content = 104},
+    {.type = OP_TMP_PUSH_INT, .content = 101},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content = 108},
+    {.type = OP_TMP_PUSH_INT, .content =  10},
+    {.type = OP_WRITE},
+    {.type = OP_CLOSE},
+};
+
 ////////// END EXAMPLES //////////
 
 bool compare(const char a[], const char b[])
@@ -253,7 +278,8 @@ int main(int argc, char *argv[])
                       << "    nqdebug\n"
                       << "    tmp_buff"
                       << "    op_tmp_at\n"
-                      << "    tmp_arr"
+                      << "    tmp_arr\n"
+                      << "    files\n"
                       << "    all\n";
             exit(0);
         }
@@ -328,6 +354,11 @@ int main(int argc, char *argv[])
                 save("./tmp_arr.stasm", tmp_arr);
                 exit(0);
             }
+            else if (chosen_example == "files")
+            {
+                save("./files.stasm", files);
+                exit(0);
+            }
             else if (chosen_example == "all")
             {
                 save("./lessngreater.stasm", lessngreater);
@@ -342,6 +373,7 @@ int main(int argc, char *argv[])
                 save("./tmp_buff.stasm", tmp_buff);
                 save("./op_tmp_at.stasm", op_tmp_at);
                 save("./tmp_arr.stasm", tmp_arr);
+                save("./files.stasm", files);
                 exit(0);
             }
             else
