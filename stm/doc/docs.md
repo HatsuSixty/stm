@@ -33,3 +33,13 @@ Official stm documentation.
 | `OP_NOT`     | Remove 1 integer at the top of the stack, if the number is greater than 0, push number 0, else push number 1                                        |
 | `OP_OR`      | Remove 2 integers at the top of the stack, if one or more of them is greater than 0, push 1                                                         |
 | `OP_AND`     | Remove 2 integers at the top of the stack, if the 2 numbers are greater than 0, push 1, else, push 0                                                |
+
+## Files
+
+| Operator   | Function                                                                                 |
+|------------|------------------------------------------------------------------------------------------|
+| `OP_OPEN`  | Read the temporary buffer as a string and open the file that have the string as its path |
+| `OP_CLOSE` | Close an opened file                                                                     |
+| `OP_WRITE` | Read the temporary buffer as a string and write the string to the current opened file    |
+| `OP_READ`  | Read the current opened file and write as a string to the temporary buffer               |
+| `OP_PUT`   | Write the number on the top of the stack to the current opened file                      |
