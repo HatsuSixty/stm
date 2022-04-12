@@ -16,7 +16,7 @@ cd ..
 
 cd ./stasm/
 make
-if [ -f "./stasm"]; then
+if [ -f "./stasm" ]; then
 	cp -v ./stasm ../bin/stasm
 fi
 cd ..
