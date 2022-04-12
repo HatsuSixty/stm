@@ -43,3 +43,30 @@ Official stm documentation.
 | `OP_WRITE` | Read the temporary buffer as a string and write the string to the current opened file    |
 | `OP_READ`  | Read the current opened file and write as a string to the temporary buffer               |
 | `OP_PUT`   | Write the number on the top of the stack to the current opened file                      |
+
+## General
+
+| Operator   | Function                                               |
+|------------|--------------------------------------------------------|
+| `OP_RAND`  | Similar to rand() in C, pushes the result on the stack |
+| `OP_PRINT` | Print the temporary buffer as a string                 |
+
+## Temporary buffer
+
+The temporary buffer is used by the virtual machine to store strings and temporary data. The instructions to manipulate the temporary buffer are:
+```
+OP_TMP_PUSH_INT
+OP_TMP_DROP
+OP_NQDEBUG_TMP_BUFF
+OP_TMP_AT
+```
+
+## Temporary array
+
+Temporary array is not used by the virtual machine, it was made to let the users do whatever they want with this array. The instruction to manipulate the temporary array are:
+```
+OP_ARR_PUSH_INT
+OP_ARR_DROP
+OP_ARR_AT
+OP_NQDEBUG_TMP_ARR
+```
