@@ -4,6 +4,6 @@
 
 int main(void)
 {
-    printf("Hello, world!\n");
+    compile_program("sum.stasm");
     return 0;
 }
