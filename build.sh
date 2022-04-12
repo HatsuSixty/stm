@@ -12,4 +12,13 @@ fi
 ./test.py
 cd ..
 
-#############
+#### STASM ####
+
+cd ./stasm/
+make
+if [ -f "./stasm"]; then
+	cp -v ./stasm ../bin/stasm
+fi
+cd ..
+
+###############
