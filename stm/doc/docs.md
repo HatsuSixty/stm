@@ -4,6 +4,8 @@ Official stm documentation.
 
 ## Basics
 
+| Operator      | Function                                                                           |
+|---------------|------------------------------------------------------------------------------------|
 | `OP_PUTC`     | Print the character equivalent to the ascii code on the top of the stack to stdout |
 | `OP_PUTI`     | Print an integer on the top of the stack to stdout                                 |
 | `OP_PLUS`     | Remove 2 integers on the top of the stack, sum them up, and push the result back   |
