@@ -19,4 +19,4 @@ clean:
 	rm ./src/*.o
 
 ./src/main.c: ./src/compiler.h
-./src/sv.c: ./src/sv.h ./src/operators.h
+./src/sv.c: ./src/sv.h
