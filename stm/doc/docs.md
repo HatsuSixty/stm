@@ -46,10 +46,12 @@ Official stm documentation.
 
 ## General
 
-| Operator   | Function                                               |
-|------------|--------------------------------------------------------|
-| `OP_RAND`  | Similar to rand() in C, pushes the result on the stack |
-| `OP_PRINT` | Print the temporary buffer as a string                 |
+| Operator   | Function                                                                         |
+|------------|----------------------------------------------------------------------------------|
+| `OP_RAND`  | Similar to rand() in C, pushes the result on the stack                           |
+| `OP_PRINT` | Print the temporary buffer as a string                                           |
+| `OP_NULL`  | It does nothing                                                                  |
+| `OP_QUIT`  | Remove 1 integer at the top of the stack, and exit with the integer as exit code |
 
 ## Temporary buffer
 

@@ -2,7 +2,7 @@
 
 std::vector <Op> load(std::string path)
 {
-    static_assert(OP_COUNT == 41 /* Exhaustive handling of OPs in load() */);
+    static_assert(OP_COUNT == 42 /* Exhaustive handling of OPs in load() */);
 
     std::vector <Op> program;
 
@@ -198,6 +198,10 @@ std::vector <Op> load(std::string path)
             program.push_back({.type = OP_MOD});
         } break;
 
+        case 42: {
+            program.push_back({.type = OP_NULL});
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -209,7 +213,7 @@ std::vector <Op> load(std::string path)
 
 void save(std::string path, std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 41 /* Exhaustive handling of OPs in save() */);
+    static_assert(OP_COUNT == 42 /* Exhaustive handling of OPs in save() */);
 
     std::ofstream stream;
     stream.open(path);
@@ -393,6 +397,10 @@ void save(std::string path, std::vector <Op> program)
             stream.put(41);
         } break;
 
+        case OP_NULL: {
+            stream.put(42);
+        } break;
+
         default:
             std::cerr << "ERROR: Unreachable\n";
             exit(2);
@@ -404,7 +412,7 @@ void save(std::string path, std::vector <Op> program)
 
 void simulate_program(std::vector <Op> program)
 {
-    static_assert(OP_COUNT == 41 /* Exhaustive handling of OPs in simulate_program() */);
+    static_assert(OP_COUNT == 42 /* Exhaustive handling of OPs in simulate_program() */);
     std::vector <long int> stack = {0};
     std::vector <long int> tmp_buff;
     std::vector <long int> tmp_vect;
@@ -942,6 +950,8 @@ void simulate_program(std::vector <Op> program)
             int b = stack.back(); stack.pop_back();
             stack.push_back(b % a);
         } break;
+
+        case OP_NULL: {} break;
 
         default:
             std::cerr << "ERROR: Unreachable\n";

@@ -10,5 +10,6 @@
 #include "./sv.h"
 
 void compile_program(const char* fpath);
+void translate_line(String_View line);
 
 #endif // COMPILER_H_

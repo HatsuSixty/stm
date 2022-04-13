@@ -43,6 +43,7 @@ typedef enum {
     OP_PUT,
     OP_RAND,
     OP_MOD,
+    OP_NULL,
     OP_COUNT
 } OpType;
 
