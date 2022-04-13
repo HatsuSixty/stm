@@ -1,7 +1,11 @@
 #include "./compiler.h"
 
+#define PROGRAM_CAP 1024
+unsigned int program[PROGRAM_CAP] = {0};
+size_t program_sz;
+
 #define TOKENS_CAP 1024
-void translate_line(String_View line, unsigned int* program, size_t* program_sz)
+void translate_line(String_View line)
 {
     String_View tokens[1024];
     size_t tokens_sz = 0;
@@ -15,29 +19,29 @@ void translate_line(String_View line, unsigned int* program, size_t* program_sz)
         }
     }
 
-    String_View token;
-    for (size_t i = 0; i < tokens_sz; ++i)
-    {
-        token = tokens[i];
-        if (sv_eq(token, SV("pushi")))
+    for (size_t i = 0; i < tokens_sz; ++i) {
+        if (sv_eq(tokens[i], sv_from_cstr("pushi")))
         {
-            int ntokenv = sv_to_int(tokens[++i]);
-            program[*program_sz++] = OP_PUSH_INT;
-            program[*program_sz++] = ntokenv;
+            program[program_sz++] = OP_PUSH_INT;
+            program[program_sz++] = sv_to_int(tokens[++i]);
         }
-        else if (sv_eq(token, SV("plus")))
+        else if (sv_eq(tokens[i], sv_from_cstr("plus")))
         {
-            program[*program_sz++] = OP_PLUS;
+            program[program_sz++] = OP_PLUS;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("puti")))
+        {
+            program[program_sz++] = OP_PUTI;
         }
         else
         {
-            fprintf(stderr, "ERROR: Unreachable\n");
-            exit(2);
+            fprintf(stderr, "ERROR: Unknown instruction: "SV_Fmt"\n",
+                    (int) tokens[i].count, tokens[i].data);
+            exit(1);
         }
     }
 }
 
-#define PROGRAM_CAP 1024
 void compile_program(const char* fpath)
 {
     FILE* file = fopen(fpath, "rb");
@@ -66,13 +70,14 @@ void compile_program(const char* fpath)
     fclose(file);
     String_View source = sv_from_cstr(buffer);
 
-    unsigned int program[PROGRAM_CAP] = {0};
-    size_t program_sz = 0;
-
     while (source.count > 0) {
         String_View line = sv_trim(sv_chop_by_delim(&source, '\n'));
         if (line.count > 0) {
-            translate_line(line, program, &program_sz);
+            translate_line(line);
         }
+    }
+
+    for (size_t i = 0; i < program_sz; ++i) {
+        printf("%d\n", program[i]);
     }
 }
