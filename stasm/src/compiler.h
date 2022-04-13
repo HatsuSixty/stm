@@ -8,8 +8,9 @@
 #include <stddef.h>
 
 #include "./sv.h"
+#include "./operators.h"
 
 void compile_program(const char* fpath);
-void translate_line(String_View line);
+void translate_line(String_View line, unsigned int* program, size_t* program_sz);
 
 #endif // COMPILER_H_

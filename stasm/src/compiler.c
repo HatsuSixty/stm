@@ -1,12 +1,12 @@
 #include "./compiler.h"
 
 #define TOKENS_CAP 1024
-void translate_line(String_View line)
+void translate_line(String_View line, unsigned int* program, size_t* program_sz)
 {
     String_View tokens[1024];
     size_t tokens_sz = 0;
 
-    line = sv_trim(sv_chop_by_delim(&line, '#'));
+    line = sv_trim(sv_chop_by_delim(&line, ';'));
     String_View inst;
     while (line.count > 0) {
         inst = sv_trim(sv_chop_by_delim(&line, ' '));
@@ -15,12 +15,29 @@ void translate_line(String_View line)
         }
     }
 
+    String_View token;
     for (size_t i = 0; i < tokens_sz; ++i)
     {
-        printf(""SV_Fmt"\n", (int) tokens[i].count, tokens[i].data);
+        token = tokens[i];
+        if (sv_eq(token, SV("pushi")))
+        {
+            int ntokenv = sv_to_int(tokens[++i]);
+            program[*program_sz++] = OP_PUSH_INT;
+            program[*program_sz++] = ntokenv;
+        }
+        else if (sv_eq(token, SV("plus")))
+        {
+            program[*program_sz++] = OP_PLUS;
+        }
+        else
+        {
+            fprintf(stderr, "ERROR: Unreachable\n");
+            exit(2);
+        }
     }
 }
 
+#define PROGRAM_CAP 1024
 void compile_program(const char* fpath)
 {
     FILE* file = fopen(fpath, "rb");
@@ -49,10 +66,13 @@ void compile_program(const char* fpath)
     fclose(file);
     String_View source = sv_from_cstr(buffer);
 
+    unsigned int program[PROGRAM_CAP] = {0};
+    size_t program_sz = 0;
+
     while (source.count > 0) {
         String_View line = sv_trim(sv_chop_by_delim(&source, '\n'));
         if (line.count > 0) {
-            translate_line(line);
+            translate_line(line, program, &program_sz);
         }
     }
 }
