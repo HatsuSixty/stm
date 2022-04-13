@@ -4,6 +4,6 @@
 
 int main(void)
 {
-    compile_program("sum.stasm");
+    compile_program("program.stasm");
     return 0;
 }
