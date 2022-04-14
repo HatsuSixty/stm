@@ -1,6 +1,5 @@
 #include "./compiler.h"
 
-// i cant put it in a header :(
 #define OP_PUTC              1;
 #define OP_PUTI              2;
 #define OP_PLUS              3;
