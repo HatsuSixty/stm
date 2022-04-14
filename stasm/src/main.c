@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
             if ((size_t) (argc - 1) < (i + 1))
             {
                 fprintf(stderr, "ERROR: No input file is provided\n");
+                exit(4);
             }
 
             fpath = argv[++i];
@@ -69,5 +70,6 @@ int main(int argc, char *argv[])
         }
     }
 
+    compile_program(fpath);
     return 0;
 }

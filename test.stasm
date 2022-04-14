@@ -1,0 +1,8 @@
+label:
+	pushi 10
+	pushi 20
+	plus
+	puti
+	pushi 10
+	putc
+	jmp label
