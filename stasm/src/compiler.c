@@ -189,20 +189,26 @@ void translate_line(String_View line)
         else if (sv_eq(tokens[i], sv_from_cstr("jmp")))
         {
             String_View labelname = sv_trim(sv_chop_by_delim(&tokens[++i], ':'));
+            int exists = 0;
             for (size_t l = 0; l < label_sz; ++l) {
                 if (sv_eq(labels[l].name, labelname))
                 {
                     program[program_sz++] = OP_JMP;
                     program[program_sz++] = labels[l].loc;
+                    exists = 1;
                 }
+            }
+            if (!exists)
+            {
+                fprintf(stderr, "ERROR: Label `"SV_Fmt"` does not exists\n", SV_Arg(labelname));
+                exit(1);
             }
         }
         else
         {
             if (!is_label(tokens[i]))
             {
-                fprintf(stderr, "ERROR: Unknown instruction: "SV_Fmt"\n",
-                        (int) tokens[i].count, tokens[i].data);
+                fprintf(stderr, "ERROR: Unknown instruction: "SV_Fmt"\n", SV_Arg(tokens[i]));
                 exit(1);
             }
         }
