@@ -201,8 +201,8 @@ if __name__ == '__main__':
 
     load_dotenv()
     subcommand = "run"
-    binn = os.getenv("BINF")
-    if binn == None:
+    binn = os.getenv("BINF", "")
+    if binn == "":
         print("!!ERROR!! Could not load enviroment variable BINF", file=sys.stderr)
 
     stm = os.path.join(binn, "stm")
