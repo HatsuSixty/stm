@@ -6,10 +6,13 @@
 #include <string.h>
 #include <errno.h>
 #include <stddef.h>
+#include <assert.h>
 
 #include "./sv.h"
 
 void compile_program(const char* fpath);
 void translate_line(String_View line);
+void update_labels(String_View source);
+int is_label(String_View token);
 
 #endif // COMPILER_H_
