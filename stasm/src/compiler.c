@@ -97,6 +97,10 @@ void translate_line(String_View line)
         {
             program[program_sz++] = OP_PUTI;
         }
+        else if (sv_eq(tokens[i], sv_from_cstr("putc")))
+        {
+            program[program_sz++] = OP_PUTC;
+        }
         else
         {
             fprintf(stderr, "ERROR: Unknown instruction: "SV_Fmt"\n",
