@@ -74,6 +74,26 @@ void translate_line(String_View line)
         {
             program[program_sz++] = OP_PLUS;
         }
+        else if (sv_eq(tokens[i], sv_from_cstr("minus")))
+        {
+            program[program_sz++] = OP_MINUS;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("mult")))
+        {
+            program[program_sz++] = OP_MULT;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("div")))
+        {
+            program[program_sz++] = OP_DIV;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("mod")))
+        {
+            program[program_sz++] = OP_MOD;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("rand")))
+        {
+            program[program_sz++] = OP_RAND;
+        }
         else if (sv_eq(tokens[i], sv_from_cstr("puti")))
         {
             program[program_sz++] = OP_PUTI;
