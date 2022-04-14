@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
     if (argc < 2)
     {
         usage(stderr);
-        std::cerr << "ERROR: no flag is provided\n";
+        std::cerr << "ERROR: No flag is provided\n";
         exit(4);
     }
 
@@ -253,7 +253,7 @@ int main(int argc, char *argv[])
             if ((size_t) (argc - 1) < (i + 1))
             {
                 usage(stderr);
-                std::cerr << "ERROR: no input file is provided\n";
+                std::cerr << "ERROR: No input file is provided\n";
                 exit(4);
             }
             else
@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
             if ((size_t) (argc - 1) < (i + 1))
             {
                 usage(stderr);
-                std::cerr << "ERROR: no example is provided\n";
+                std::cerr << "ERROR: No example is provided\n";
                 exit(4);
             }
 
@@ -375,14 +375,14 @@ int main(int argc, char *argv[])
             }
             else
             {
-                std::cerr << "ERROR: unknown example: `" << chosen_example << "`\n";
+                std::cerr << "ERROR: Unknown example: `" << chosen_example << "`\n";
                 exit(4);
             }
         }
         else
         {
             usage(stderr);
-            std::cerr << "ERROR: unknown flag: `" << argv[i] << "`\n";
+            std::cerr << "ERROR: Unknown flag: `" << argv[i] << "`\n";
             exit(4);
         }
     }

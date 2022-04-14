@@ -225,7 +225,7 @@ void compile_program(const char* fpath)
     {
         fprintf(stderr, "ERROR: Could not open `%s`: %s\n",
                 fpath, strerror(errno));
-        exit(1);
+        exit(3);
     }
 
     fseek(file, 0, SEEK_END);
