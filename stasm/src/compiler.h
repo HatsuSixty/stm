@@ -10,7 +10,7 @@
 
 #include "./sv.h"
 
-void compile_program(const char* fpath);
+void compile_program(const char* fpath, const char* outpath);
 void translate_line(String_View line);
 void update_labels(String_View source);
 int is_label(String_View token);

@@ -28,11 +28,14 @@ void usage(FILE* stream)
     fprintf(stream, "    -f | --file   - Compile the specified program into STM bytecode\n");
     fprintf(stream, "    -s | --silent - Do not display log messages\n");
     fprintf(stream, "    -h | --help   - Print this help\n");
+    fprintf(stream, "    -o | --output - Change the output file name\n");
+
 }
 
 int main(int argc, char *argv[])
 {
     char* fpath = (char*)malloc(sizeof(char) * 255);
+    char* outpath = (char*)malloc(sizeof(char) * 255);
     int silent = 0;
 
     if (argc < 2)
@@ -58,6 +61,16 @@ int main(int argc, char *argv[])
 
             fpath = argv[++i];
         }
+        else if (compare(argv[i], "-o") || compare(argv[i], "--output"))
+        {
+            if ((size_t) (argc - 1) < (i + 1))
+            {
+                fprintf(stderr, "ERROR: No output file is provided\n");
+                exit(4);
+            }
+
+            outpath = argv[++i];
+        }
         else if (compare(argv[i], "-s") || compare(argv[i], "--silent"))
         {
             silent = 1;
@@ -70,6 +83,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    compile_program(fpath);
+    if (outpath[0] == '\0')
+    {
+        outpath = "output.stm";
+    }
+
+    compile_program(fpath, outpath);
     return 0;
 }

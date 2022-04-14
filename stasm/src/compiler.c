@@ -215,7 +215,7 @@ void translate_line(String_View line)
     }
 }
 
-void compile_program(const char* fpath)
+void compile_program(const char* fpath, const char* outpath)
 {
     FILE* file = fopen(fpath, "rb");
     char* buffer = 0;
@@ -251,7 +251,7 @@ void compile_program(const char* fpath)
         }
     }
 
-    FILE* output = fopen("output.stm", "wb");
+    FILE* output = fopen(outpath, "wb");
     fwrite(program, sizeof(program[0]), sizeof(program[0]) * program_sz,
            output);
     fclose(output);
