@@ -210,6 +210,7 @@ void translate_line(String_View line)
                     program[program_sz++] = OP_JMP;
                     program[program_sz++] = labels[l].loc;
                     exists = 1;
+                    break;
                 }
             }
             if (!exists)
@@ -217,6 +218,49 @@ void translate_line(String_View line)
                 fprintf(stderr, "ERROR: Label `"SV_Fmt"` does not exists\n", SV_Arg(labelname));
                 exit(1);
             }
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("jmp-if")))
+        {
+            String_View labelname = sv_trim(sv_chop_by_delim(&tokens[++i], ':'));
+            int exists = 0;
+            for (size_t l = 0; l < label_sz; ++l) {
+                if (sv_eq(labels[l].name, labelname))
+                {
+                    program[program_sz++] = OP_JMP_IF;
+                    program[program_sz++] = labels[l].loc;
+                    exists = 1;
+                    break;
+                }
+            }
+            if (!exists)
+            {
+                fprintf(stderr, "ERROR: Label `"SV_Fmt"` does not exists\n", SV_Arg(labelname));
+                exit(1);
+            }
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("!")))
+        {
+            program[program_sz++] = OP_NOT;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("=")))
+        {
+            program[program_sz++] = OP_EQU;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("<")))
+        {
+            program[program_sz++] = OP_LESS;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr(">")))
+        {
+            program[program_sz++] = OP_GREATER;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("||")))
+        {
+            program[program_sz++] = OP_OR;
+        }
+        else if (sv_eq(tokens[i], sv_from_cstr("&&")))
+        {
+            program[program_sz++] = OP_AND;
         }
         else
         {
