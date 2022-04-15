@@ -7,10 +7,13 @@
 #include <errno.h>
 #include <stddef.h>
 #include <assert.h>
+#include <stdarg.h>
 
 #include "./sv.h"
+#include "./time.h"
 
-void compile_program(const char* fpath, const char* outpath);
+void compiler_info(const char* message, ...);
+void compile_program(const char* fpath, const char* outpath, int fsilent);
 void translate_line(String_View line);
 void update_labels(String_View source);
 int is_label(String_View token);

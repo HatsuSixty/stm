@@ -57,6 +57,20 @@ size_t program_sz = 0;
 Label labels[LABEL_CAP] = {0};
 size_t label_sz = 0;
 
+int silent = 0;
+
+void compiler_info(const char* message, ...)
+{
+    if (!silent)
+    {
+        va_list args;
+        va_start(args, message);
+        printf("[INFO] ");
+        vfprintf(stdout, message, args);
+        va_end(args);
+    }
+}
+
 void update_labels(String_View source)
 {
     char cur_index = 0;
@@ -215,11 +229,14 @@ void translate_line(String_View line)
     }
 }
 
-void compile_program(const char* fpath, const char* outpath)
+void compile_program(const char* fpath, const char* outpath, int fsilent)
 {
     FILE* file = fopen(fpath, "rb");
     char* buffer = 0;
     size_t length;
+    silent = fsilent;
+
+    compiler_info("Compiling program...\n");
 
     if (file == NULL)
     {
@@ -243,6 +260,9 @@ void compile_program(const char* fpath, const char* outpath)
     fclose(file);
     String_View source = sv_from_cstr(buffer);
 
+    if (!silent)
+        timefhere();
+
     update_labels(source);
     while (source.count > 0) {
         String_View line = sv_trim(sv_chop_by_delim(&source, '\n'));
@@ -251,6 +271,10 @@ void compile_program(const char* fpath, const char* outpath)
         }
     }
 
+    if (!silent)
+        timeresult("Compilation");
+
+    compiler_info("Generating output `%s`...\n", outpath);
     FILE* output = fopen(outpath, "wb");
     fwrite(program, sizeof(program[0]), sizeof(program[0]) * program_sz,
            output);

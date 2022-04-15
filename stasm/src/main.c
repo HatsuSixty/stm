@@ -88,6 +88,6 @@ int main(int argc, char *argv[])
         outpath = "output.stm";
     }
 
-    compile_program(fpath, outpath);
+    compile_program(fpath, outpath, silent);
     return 0;
 }
