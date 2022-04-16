@@ -1,0 +1,14 @@
+pushi 24
+pushi 35
+plus
+pushi 34
+minus
+pushi 34
+plus
+pushi 2
+mult
+pushi 2
+div
+puti
+pushi 10
+putc

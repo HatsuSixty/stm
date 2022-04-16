@@ -1,0 +1,18 @@
+a-pushi 1
+jmp do
+
+do:
+	pushi 0
+	a-at
+	pushi 0
+	= jmp-if end
+	t-pushi 119
+	t-pushi 111
+	t-pushi 114
+	t-pushi 107
+	t-pushi 115
+	t-pushi 33
+	t-pushi 10
+	print
+
+end:
