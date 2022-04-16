@@ -16,7 +16,7 @@ binn = ""
 stm = ""
 
 def cmd_run_echoed(cmd, **kwargs):
-    print("!!CMD!! %s" % " ".join(map(shlex.quote, cmd)))
+    print("[CMD] %s" % " ".join(map(shlex.quote, cmd)))
     return subprocess.run(cmd, **kwargs)
 
 def read_blob_field(f: BinaryIO, name: bytes) -> bytes:
@@ -91,7 +91,7 @@ def run_test_for_file(file_path: str, stats: RunStats = RunStats()):
     assert path.isfile(file_path)
     assert file_path.endswith(STM_EXT)
 
-    print('!!INFO!! Testing %s' % file_path)
+    print('[INFO] Testing %s' % file_path)
 
     tc_path = file_path[:-len(STM_EXT)] + ".txt"
     tc = load_test_case(tc_path)
@@ -101,7 +101,7 @@ def run_test_for_file(file_path: str, stats: RunStats = RunStats()):
     if tc is not None:
         com = cmd_run_echoed([stm, "-f" , file_path, *tc.argv], input=tc.stdin, capture_output=True)
         if com.returncode != tc.returncode or com.stdout != tc.stdout or com.stderr != tc.stderr:
-            print("!!ERROR!! Unexpected output")
+            print("[ERROR] Unexpected output")
             print("  Expected:")
             print("    return code: %s" % tc.returncode)
             print("    stdout: \n%s" % tc.stdout.decode("utf-8"))
@@ -114,7 +114,7 @@ def run_test_for_file(file_path: str, stats: RunStats = RunStats()):
             stats.failed += 1
 
     else:
-        print('!!WARNING!! Could not find any input/output data for %s. Ignoring testing. Only checking if it compiles.' % file_path)
+        print('[WARNING] Could not find any input/output data for %s. Ignoring testing. Only checking if it compiles.' % file_path)
         com = cmd_run_echoed([stm, "-f", file_path])
         if com.returncode != 0:
             error = True
@@ -143,11 +143,11 @@ def update_input_for_file(file_path: str, argv: List[str]):
     tc_path = file_path[:-len(STM_EXT)] + ".txt"
     tc = load_test_case(tc_path) or DEFAULT_TEST_CASE
 
-    print("!!INFO!! Provide the stdin for the test case. Press ^D when you are done...")
+    print("[INFO] Provide the stdin for the test case. Press ^D when you are done...")
 
     stdin = sys.stdin.buffer.read()
 
-    print("!!INFO!! Saving input to %s" % tc_path)
+    print("[INFO] Saving input to %s" % tc_path)
     save_test_case(tc_path,
                    argv, stdin,
                    tc.returncode, tc.stdout, tc.stderr)
@@ -157,7 +157,7 @@ def update_output_for_file(file_path: str):
     tc = load_test_case(tc_path) or DEFAULT_TEST_CASE
 
     output = cmd_run_echoed([stm, "-f", file_path, *tc.argv], input=tc.stdin, capture_output=True)
-    print("!!INFO!! Saving output to %s" % tc_path)
+    print("[INFO] Saving output to %s" % tc_path)
     save_test_case(tc_path,
                    tc.argv, tc.stdin,
                    output.returncode, output.stdout, output.stderr)
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     subcommand = "run"
     binn = os.getenv("BINF", "")
     if binn == "":
-        print("!!ERROR!! Could not load enviroment variable BINF", file=sys.stderr)
+        print("[ERROR] Could not load enviroment variable BINF", file=sys.stderr)
 
     stm = os.path.join(binn, "stm")
 
@@ -230,13 +230,13 @@ if __name__ == '__main__':
         elif subsubcommand == 'input':
             if len(argv) == 0:
                 usage(exe_name)
-                print("!!ERROR!! no file is provided for `%s %s` subcommand" % (subcommand, subsubcommand), file=sys.stderr)
+                print("[ERROR] no file is provided for `%s %s` subcommand" % (subcommand, subsubcommand), file=sys.stderr)
                 exit(1)
             file_path, *argv = argv
             update_input_for_file(file_path, argv)
         else:
             usage(exe_name)
-            print("!!ERROR!! unknown subcommand `%s %s`. Available commands are `%s input` or `%s output`" % (subcommand, subsubcommand, subcommand, subcommand), file=sys.stderr)
+            print("[ERROR] unknown subcommand `%s %s`. Available commands are `%s input` or `%s output`" % (subcommand, subsubcommand, subcommand, subcommand), file=sys.stderr)
             exit(1)
     elif subcommand == 'run' or subcommand == 'test':
         target = './examples/'
@@ -257,5 +257,5 @@ if __name__ == '__main__':
         usage(exe_name)
     else:
         usage(exe_name)
-        print("!!ERROR!! unknown subcommand `%s`" % subcommand, file=sys.stderr)
+        print("[ERROR] unknown subcommand `%s`" % subcommand, file=sys.stderr)
         exit(1);
