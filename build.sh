@@ -19,6 +19,7 @@ make
 if [ -f "./stasm" ]; then
 	cp -v ./stasm ../bin/stasm
 fi
+./test.py
 cd ..
 
 ###############
