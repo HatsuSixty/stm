@@ -1,0 +1,14 @@
+pushi 0
+start:
+dup
+pushi 10
+= jmp-if end
+pushi 1
+plus
+dup
+puti
+pushi 10
+putc
+jmp start
+
+end:

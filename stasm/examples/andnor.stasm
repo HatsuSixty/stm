@@ -1,0 +1,13 @@
+pushi 0
+pushi 1
+||
+puti
+pushi 10
+putc
+
+pushi 0
+pushi 1
+&&
+puti
+pushi 10
+putc

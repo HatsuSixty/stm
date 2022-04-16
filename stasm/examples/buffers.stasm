@@ -1,0 +1,29 @@
+t-pushi 116
+t-pushi 101
+t-pushi 109
+t-pushi 112
+t-pushi 32
+t-pushi 98
+t-pushi 117
+t-pushi 102
+t-pushi 102
+t-pushi 101
+t-pushi 114
+t-pushi 33
+t-pushi 10
+print
+
+a-pushi 0
+a-pushi 1
+
+pushi 0
+a-at puti
+
+pushi 10
+putc
+
+pushi 1
+a-at puti
+
+pushi 10
+putc

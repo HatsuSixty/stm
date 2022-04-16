@@ -262,6 +262,10 @@ void translate_line(String_View line)
         {
             program[program_sz++] = OP_AND;
         }
+        else if (sv_eq(tokens[i], sv_from_cstr("dup")))
+        {
+            program[program_sz++] = OP_DUP;
+        }
         else
         {
             if (!is_label(tokens[i]))
