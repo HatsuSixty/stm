@@ -5,7 +5,7 @@ set -x
 #### STM ####
 
 cd ./stm/
-make
+make -B
 if [ -f "./stm" ]; then
     cp -v ./stm ../bin/stm
 fi
@@ -15,7 +15,7 @@ cd ..
 #### STASM ####
 
 cd ./stasm/
-make
+make -B
 if [ -f "./stasm" ]; then
 	cp -v ./stasm ../bin/stasm
 fi
