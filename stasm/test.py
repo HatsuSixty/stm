@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# ]IMPORTANT] THIS SCRIPT IS JUST AN MINIMAL MODIFICATION OF ANOTHER SCRIPT, SEE README.md]]
+# !!IMPORTANT!! THIS SCRIPT IS JUST AN MINIMAL MODIFICATION OF ANOTHER SCRIPT, SEE README.md!!
 
 import sys
 import os
@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 STASM_EXT = '.stasm'
 binn = ""
 stasm = ""
+stm = ""
 
 def cmd_run_echoed(cmd, **kwargs):
     print("[CMD] %s" % " ".join(map(shlex.quote, cmd)))
@@ -99,7 +100,7 @@ def run_test_for_file(file_path: str, stats: RunStats = RunStats()):
     error = False
 
     if tc is not None:
-        com = cmd_run_echoed([stasm, "-r", "../bin/stm", "-f" , file_path, "-o", "tmp.stm", "-s", *tc.argv], input=tc.stdin, capture_output=True)
+        com = cmd_run_echoed([stasm, "-r", stm, "-f" , file_path, "-o", "tmp.stm", "-s", *tc.argv], input=tc.stdin, capture_output=True)
         if com.returncode != tc.returncode or com.stdout != tc.stdout or com.stderr != tc.stderr:
             print("[ERROR] Unexpected output")
             print("  Expected:")
@@ -115,7 +116,7 @@ def run_test_for_file(file_path: str, stats: RunStats = RunStats()):
 
     else:
         print('[WARNING] Could not find any input/output data for %s. Ignoring testing. Only checking if it compiles.' % file_path)
-        com = cmd_run_echoed([stasm, "-r", "../bin/stm", "-f", file_path, "-o", "tmp.stm", "-s"])
+        com = cmd_run_echoed([stasm, "-r", stm, "-f", file_path, "-o", "tmp.stm", "-s"])
         if com.returncode != 0:
             error = True
             stats.failed += 1
@@ -156,7 +157,7 @@ def update_output_for_file(file_path: str):
     tc_path = file_path[:-len(STASM_EXT)] + ".txt"
     tc = load_test_case(tc_path) or DEFAULT_TEST_CASE
 
-    output = cmd_run_echoed([stasm, "-r", "../bin/stm", "-f", file_path, "-o", "tmp.stm", "-s", *tc.argv], input=tc.stdin, capture_output=True)
+    output = cmd_run_echoed([stasm, "-r", stm, "-f", file_path, "-o", "tmp.stm", "-s", *tc.argv], input=tc.stdin, capture_output=True)
     print("[INFO] Saving output to %s" % tc_path)
     save_test_case(tc_path,
                    tc.argv, tc.stdin,
@@ -206,6 +207,7 @@ if __name__ == '__main__':
         print("[ERROR] Could not load enviroment variable BINF", file=sys.stderr)
 
     stasm = os.path.join(binn, "stasm")
+    stm   = os.path.join(binn, "stm")
 
     if len(argv) > 0:
         subcommand, *argv = argv
